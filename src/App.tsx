@@ -5,7 +5,6 @@ import Layout from './components/Layout';
 import AuthForm from './components/AuthForm';
 import Dashboard from './pages/Dashboard';
 import Wardrobe from './pages/Wardrobe';
-import AddClothing from './pages/AddClothing';
 import Favorites from './pages/Favorites';
 import Preferences from './pages/Preferences';
 
@@ -33,7 +32,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/wardrobe" element={<Wardrobe />} />
-          <Route path="/add-clothing" element={<AddClothing />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/preferences" element={<Preferences />} />
           <Route path="*" element={<Navigate to="/" replace />} />

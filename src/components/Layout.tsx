@@ -123,17 +123,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <span>Wardrobe</span>
               </Link>
               <Link
-                to="/add-clothing"
-                className={`flex items-center space-x-2 py-4 px-1 border-b-2 whitespace-nowrap transition-colors ${
-                  isActive('/add-clothing') 
-                    ? 'border-purple-500 text-purple-600' 
-                    : 'border-transparent text-gray-500 hover:text-purple-600 hover:border-purple-300'
-                }`}
-              >
-                <Plus className="h-4 w-4" />
-                <span>Add Item</span>
-              </Link>
-              <Link
                 to="/favorites"
                 className={`flex items-center space-x-2 py-4 px-1 border-b-2 whitespace-nowrap transition-colors ${
                   isActive('/favorites') 
