@@ -38,9 +38,9 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
     
     if (files.length === 0) return;
 
-    // Check total number of images (limit to 10)
-    if (imageFiles.length + files.length > 10) {
-      setError('You can upload a maximum of 10 images at once');
+    // Check total number of images (limit to 15)
+    if (imageFiles.length + files.length > 15) {
+      setError('You can upload a maximum of 15 images at once');
       return;
     }
 
@@ -351,7 +351,7 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
                     Upload photos of your clothing
                   </span>
                   <p className="text-gray-500 mb-4">
-                    Select multiple images to analyze them all at once (up to 10 images)
+                    Select multiple images to analyze them all at once (up to 15 images)
                   </p>
                   <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-teal-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-teal-700 transition-all">
                     <Upload className="h-5 w-5 mr-2" />
@@ -416,7 +416,7 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
               </div>
 
               {/* Images Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                 {imageFiles.map((imageFile) => (
                   <div
                     key={imageFile.id}
