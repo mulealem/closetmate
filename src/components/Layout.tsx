@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { Shirt, Home, Heart, Settings, LogOut, Plus, Sparkles, User, ChevronDown } from 'lucide-react';
+import { Shirt, Home, Heart, Settings, LogOut, Plus, Sparkles, User, ChevronDown, ExternalLink } from 'lucide-react';
 import AddClothingModal from './AddClothingModal';
 import AIClothingModal from './AIClothingModal';
 
@@ -295,6 +295,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <main className="flex-1">
         {children}
       </main>
+
+      {/* Built with Bolt.new Badge */}
+      <div className="fixed bottom-4 right-4 z-40">
+        <a
+          href="https://bolt.new"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center space-x-2 px-3 py-2 bg-black/80 backdrop-blur-sm text-white text-xs font-medium rounded-full hover:bg-black/90 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          <div className="w-4 h-4 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full flex items-center justify-center">
+            <div className="w-2 h-2 bg-white rounded-full"></div>
+          </div>
+          <span>Built with Bolt.new</span>
+          <ExternalLink className="h-3 w-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+        </a>
+      </div>
 
       {/* Add Clothing Modal */}
       <AddClothingModal
