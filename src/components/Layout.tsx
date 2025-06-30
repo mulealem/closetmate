@@ -29,6 +29,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   // Get user initials for avatar
   const getUserInitials = (email: string) => {
+    if (!email) return 'U';
     const name = email.split('@')[0];
     const parts = name.split(/[._-]/);
     if (parts.length >= 2) {
@@ -117,7 +118,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       {/* Username and Chevron (hidden on mobile) */}
                       <div className="hidden sm:flex items-center space-x-1">
                         <span className="text-sm font-medium text-gray-700 max-w-32 truncate">
-                          {user.email?.split('@')[0]}
+                          {user.email?.split('@')[0] || 'User'}
                         </span>
                         <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
                           isUserDropdownOpen ? 'rotate-180' : ''
@@ -127,7 +128,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
                     {/* Dropdown Menu */}
                     {isUserDropdownOpen && (
-                      <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 transform transition-all duration-200 origin-top-right">
+                      <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 transform transition-all duration-200 origin-top-right animate-in slide-in-from-top-2">
                         {/* User Info */}
                         <div className="px-4 py-3 border-b border-gray-100">
                           <div className="flex items-center space-x-3">
@@ -136,10 +137,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-medium text-gray-900 truncate">
-                                {user.email?.split('@')[0]}
+                                {user.email?.split('@')[0] || 'User'}
                               </p>
                               <p className="text-xs text-gray-500 truncate">
-                                {user.email}
+                                {user.email || 'No email'}
                               </p>
                             </div>
                           </div>
