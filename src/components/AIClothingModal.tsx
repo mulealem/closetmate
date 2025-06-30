@@ -305,26 +305,26 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
   const getStatusIcon = (status: ImageFile['status']) => {
     switch (status) {
       case 'pending':
-        return <ImageIcon className="h-4 w-4 text-gray-400" />;
+        return <ImageIcon className="h-4 w-4 text-gray-400 dark:text-gray-500" />;
       case 'analyzing':
-        return <Loader className="h-4 w-4 text-blue-600 animate-spin" />;
+        return <Loader className="h-4 w-4 text-blue-600 dark:text-blue-400 animate-spin" />;
       case 'analyzed':
-        return <Check className="h-4 w-4 text-green-600" />;
+        return <Check className="h-4 w-4 text-green-600 dark:text-green-400" />;
       case 'error':
-        return <AlertCircle className="h-4 w-4 text-red-600" />;
+        return <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />;
     }
   };
 
   const getStatusColor = (status: ImageFile['status']) => {
     switch (status) {
       case 'pending':
-        return 'border-gray-200';
+        return 'border-gray-200 dark:border-gray-600';
       case 'analyzing':
-        return 'border-blue-300 bg-blue-50';
+        return 'border-blue-300 dark:border-blue-600 bg-blue-50 dark:bg-blue-900/20';
       case 'analyzed':
-        return 'border-green-300 bg-green-50';
+        return 'border-green-300 dark:border-green-600 bg-green-50 dark:bg-green-900/20';
       case 'error':
-        return 'border-red-300 bg-red-50';
+        return 'border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20';
     }
   };
 
@@ -336,22 +336,22 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto transition-colors duration-300">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-700">
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-gradient-to-r from-purple-600 to-teal-600 rounded-lg">
               <Sparkles className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">AI Clothing Analysis</h2>
-              <p className="text-gray-600">Upload multiple images and let AI identify your clothing with enhanced properties</p>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">AI Clothing Analysis</h2>
+              <p className="text-gray-600 dark:text-gray-400">Upload multiple images and let AI identify your clothing with enhanced properties</p>
             </div>
           </div>
           <button
             onClick={handleClose}
             disabled={loading}
-            className="p-2 text-gray-400 hover:text-gray-600 rounded-lg transition-colors disabled:opacity-50"
+            className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg transition-colors disabled:opacity-50"
           >
             <X className="h-5 w-5" />
           </button>
@@ -361,25 +361,25 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
         <div className="p-6">
           {/* Error Message */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex items-center space-x-2">
-              <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
-              <p className="text-red-600 text-sm">{error}</p>
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6 flex items-center space-x-2">
+              <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+              <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
             </div>
           )}
 
           {imageFiles.length === 0 ? (
             /* Upload Area */
-            <div className="border-2 border-dashed border-gray-300 rounded-2xl p-12">
+            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl p-12 dark:bg-gray-700/50">
               <div className="text-center">
                 <div className="flex justify-center space-x-4 mb-6">
-                  <Camera className="h-12 w-12 text-gray-400" />
-                  <Upload className="h-12 w-12 text-gray-400" />
+                  <Camera className="h-12 w-12 text-gray-400 dark:text-gray-500" />
+                  <Upload className="h-12 w-12 text-gray-400 dark:text-gray-500" />
                 </div>
                 <label htmlFor="ai-image-upload" className="cursor-pointer">
-                  <span className="text-xl font-medium text-gray-700 block mb-2">
+                  <span className="text-xl font-medium text-gray-700 dark:text-gray-300 block mb-2">
                     Upload photos of your clothing
                   </span>
-                  <p className="text-gray-500 mb-4">
+                  <p className="text-gray-500 dark:text-gray-400 mb-4">
                     Select multiple images to analyze them all at once (up to 15 images)
                   </p>
                   <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-teal-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-teal-700 transition-all">
@@ -395,12 +395,12 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
                   onChange={handleImageChange}
                   className="hidden"
                 />
-                <p className="text-xs text-gray-400 mt-4">
+                <p className="text-xs text-gray-400 dark:text-gray-500 mt-4">
                   Supports JPG, PNG, GIF up to 10MB each
                 </p>
-                <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h4 className="font-medium text-blue-800 mb-2">✨ Enhanced AI Analysis</h4>
-                  <p className="text-blue-700 text-sm">
+                <div className="mt-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                  <h4 className="font-medium text-blue-800 dark:text-blue-300 mb-2">✨ Enhanced AI Analysis</h4>
+                  <p className="text-blue-700 dark:text-blue-400 text-sm">
                     Our AI now analyzes 40+ properties including formality level, versatility score, 
                     texture, breathability, and emotional associations for superior outfit recommendations!
                   </p>
@@ -411,31 +411,31 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
             /* Images Grid & Analysis */
             <div className="space-y-6">
               {/* Status Summary */}
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-6">
                     <div className="text-sm">
-                      <span className="font-medium text-gray-700">Total: </span>
-                      <span className="text-gray-600">{imageFiles.length}</span>
+                      <span className="font-medium text-gray-700 dark:text-gray-300">Total: </span>
+                      <span className="text-gray-600 dark:text-gray-400">{imageFiles.length}</span>
                     </div>
                     <div className="text-sm">
-                      <span className="font-medium text-green-700">Analyzed: </span>
-                      <span className="text-green-600">{analyzedCount}</span>
+                      <span className="font-medium text-green-700 dark:text-green-400">Analyzed: </span>
+                      <span className="text-green-600 dark:text-green-400">{analyzedCount}</span>
                     </div>
                     <div className="text-sm">
-                      <span className="font-medium text-gray-700">Pending: </span>
-                      <span className="text-gray-600">{pendingCount}</span>
+                      <span className="font-medium text-gray-700 dark:text-gray-300">Pending: </span>
+                      <span className="text-gray-600 dark:text-gray-400">{pendingCount}</span>
                     </div>
                     {errorCount > 0 && (
                       <div className="text-sm">
-                        <span className="font-medium text-red-700">Errors: </span>
-                        <span className="text-red-600">{errorCount}</span>
+                        <span className="font-medium text-red-700 dark:text-red-400">Errors: </span>
+                        <span className="text-red-600 dark:text-red-400">{errorCount}</span>
                       </div>
                     )}
                   </div>
                   
                   <div className="flex items-center space-x-3">
-                    <label htmlFor="add-more-images" className="cursor-pointer px-3 py-2 text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2">
+                    <label htmlFor="add-more-images" className="cursor-pointer px-3 py-2 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2">
                       <Plus className="h-4 w-4" />
                       <span>Add More</span>
                       <input
@@ -457,11 +457,11 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
                   <div
                     key={imageFile.id}
                     className={`relative rounded-lg border-2 overflow-hidden ${getStatusColor(imageFile.status)} ${
-                      currentAnalyzing === imageFile.id ? 'ring-2 ring-blue-400' : ''
+                      currentAnalyzing === imageFile.id ? 'ring-2 ring-blue-400 dark:ring-blue-500' : ''
                     }`}
                   >
                     {/* Image */}
-                    <div className="aspect-square bg-gray-100">
+                    <div className="aspect-square bg-gray-100 dark:bg-gray-700">
                       <img
                         src={imageFile.preview}
                         alt="Clothing item"
@@ -471,7 +471,7 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
 
                     {/* Status Overlay */}
                     <div className="absolute top-2 left-2">
-                      <div className="bg-white/90 backdrop-blur-sm rounded-full p-1">
+                      <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full p-1">
                         {getStatusIcon(imageFile.status)}
                       </div>
                     </div>
@@ -511,8 +511,8 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
                     {/* Analyzing Indicator */}
                     {imageFile.status === 'analyzing' && (
                       <div className="absolute inset-0 bg-blue-600/20 flex items-center justify-center">
-                        <div className="bg-white/90 backdrop-blur-sm rounded-lg p-3">
-                          <Loader className="h-6 w-6 text-blue-600 animate-spin" />
+                        <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg p-3">
+                          <Loader className="h-6 w-6 text-blue-600 dark:text-blue-400 animate-spin" />
                         </div>
                       </div>
                     )}
@@ -521,8 +521,8 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-between pt-6 border-t border-gray-100">
-                <div className="text-sm text-gray-500">
+              <div className="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-gray-700">
+                <div className="text-sm text-gray-500 dark:text-gray-400">
                   {loading && currentAnalyzing && (
                     <span>Analyzing images with enhanced AI... Please wait.</span>
                   )}
@@ -535,7 +535,7 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
                   <button
                     onClick={handleClose}
                     disabled={loading}
-                    className="px-6 py-3 text-gray-600 font-medium rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+                    className="px-6 py-3 text-gray-600 dark:text-gray-400 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
                   >
                     Cancel
                   </button>

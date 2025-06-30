@@ -190,14 +190,14 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transition-colors duration-300">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 className="text-2xl font-bold text-gray-900">Add New Item</h2>
+        <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-700">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Add New Item</h2>
           <button
             onClick={handleClose}
             disabled={loading}
-            className="p-2 text-gray-400 hover:text-gray-600 rounded-lg transition-colors disabled:opacity-50"
+            className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg transition-colors disabled:opacity-50"
           >
             <X className="h-5 w-5" />
           </button>
@@ -207,26 +207,26 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Error Message */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <p className="text-red-600 text-sm">{error}</p>
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+              <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
             </div>
           )}
 
           {/* Image Upload */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
               Photo *
             </label>
             
             {!imagePreview ? (
-              <div className="border-2 border-dashed border-gray-300 rounded-xl p-8">
+              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-8 dark:bg-gray-700/50">
                 <div className="text-center">
-                  <Upload className="h-10 w-10 text-gray-400 mx-auto mb-3" />
+                  <Upload className="h-10 w-10 text-gray-400 dark:text-gray-500 mx-auto mb-3" />
                   <label htmlFor="image-upload" className="cursor-pointer">
-                    <span className="text-lg font-medium text-gray-700">
+                    <span className="text-lg font-medium text-gray-700 dark:text-gray-300">
                       Click to upload photo
                     </span>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                       PNG, JPG, GIF up to 10MB
                     </p>
                   </label>
@@ -250,9 +250,9 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
                 <button
                   type="button"
                   onClick={removeImage}
-                  className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors"
+                  className="absolute top-2 right-2 p-2 bg-white dark:bg-gray-800 rounded-full shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
-                  <X className="h-4 w-4 text-gray-600" />
+                  <X className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                 </button>
               </div>
             )}
@@ -261,13 +261,13 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                 Category *
               </label>
               <select
                 value={formData.category}
                 onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
                 required
               >
                 {categories.map((category) => (
@@ -280,13 +280,13 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
 
             {/* Warmth Level */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                 Warmth Level *
               </label>
               <select
                 value={formData.warmth_level}
                 onChange={(e) => setFormData(prev => ({ ...prev, warmth_level: e.target.value }))}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
                 required
               >
                 {warmthLevels.map((level) => (
@@ -300,7 +300,7 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
 
           {/* Color */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
               Color *
             </label>
             <input
@@ -308,7 +308,7 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
               value={formData.color}
               onChange={(e) => setFormData(prev => ({ ...prev, color: e.target.value }))}
               placeholder="e.g., Navy Blue, Dark Gray"
-              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
               required
             />
             <div className="mt-3 flex flex-wrap gap-2">
@@ -317,7 +317,7 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
                   key={color}
                   type="button"
                   onClick={() => setFormData(prev => ({ ...prev, color }))}
-                  className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full hover:bg-purple-100 hover:text-purple-700 transition-colors"
+                  className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:text-purple-700 dark:hover:text-purple-400 transition-colors"
                 >
                   {color}
                 </button>
@@ -327,7 +327,7 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
 
           {/* Tags */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
               Tags (Optional)
             </label>
             
@@ -337,13 +337,13 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
                 {formData.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm"
+                    className="inline-flex items-center px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-full text-sm"
                   >
                     {tag}
                     <button
                       type="button"
                       onClick={() => removeTag(tag)}
-                      className="ml-2 text-purple-500 hover:text-purple-700"
+                      className="ml-2 text-purple-500 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300"
                     >
                       <X className="h-3 w-3" />
                     </button>
@@ -359,7 +359,7 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
                 value={formData.newTag}
                 onChange={(e) => setFormData(prev => ({ ...prev, newTag: e.target.value }))}
                 placeholder="Add custom tag"
-                className="flex-1 px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="flex-1 px-3 py-2 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
                 onKeyPress={(e) => {
                   if (e.key === 'Enter') {
                     e.preventDefault();
@@ -370,7 +370,7 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
               <button
                 type="button"
                 onClick={() => addTag(formData.newTag)}
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                className="px-4 py-2 bg-purple-600 dark:bg-purple-700 text-white rounded-lg hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors"
               >
                 <Plus className="h-4 w-4" />
               </button>
@@ -383,7 +383,7 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
                   key={tag}
                   type="button"
                   onClick={() => addTag(tag)}
-                  className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-full hover:bg-purple-100 hover:text-purple-700 transition-colors"
+                  className="px-3 py-1 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:text-purple-700 dark:hover:text-purple-400 transition-colors"
                 >
                   {tag}
                 </button>
@@ -392,19 +392,19 @@ export default function AddClothingModal({ isOpen, onClose, onSuccess }: AddClot
           </div>
 
           {/* Submit Buttons */}
-          <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-end space-x-4 pt-4 border-t border-gray-100 dark:border-gray-700">
             <button
               type="button"
               onClick={handleClose}
               disabled={loading}
-              className="px-6 py-3 text-gray-600 font-medium rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+              className="px-6 py-3 text-gray-600 dark:text-gray-400 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || !imageFile || !formData.color.trim()}
-              className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+              className="px-6 py-3 bg-purple-600 dark:bg-purple-700 text-white font-medium rounded-lg hover:bg-purple-700 dark:hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
             >
               {loading ? (
                 <>
