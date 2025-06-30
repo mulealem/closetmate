@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { Mail, Lock, Eye, EyeOff, Shirt, Sparkles, Camera, Wand2, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Shirt, Sparkles, Camera, Wand2, CheckCircle, AlertCircle, RefreshCw, ExternalLink } from 'lucide-react';
 import DarkModeToggle from './DarkModeToggle';
 
 export default function AuthForm() {
@@ -86,10 +86,26 @@ export default function AuthForm() {
   };
 
   return (
-    <div className="h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-teal-600 dark:from-gray-900 dark:via-purple-900 dark:to-gray-800 transition-colors duration-300 overflow-hidden">
+    <div className="h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-teal-600 dark:from-gray-900 dark:via-purple-900 dark:to-gray-800 transition-colors duration-300 overflow-hidden relative">
       {/* Dark Mode Toggle - Fixed Position */}
       <div className="fixed top-4 right-4 z-50">
         <DarkModeToggle className="bg-white/10 dark:bg-gray-800/50 text-white hover:bg-white/20 dark:hover:bg-gray-700/50" />
+      </div>
+
+      {/* Built with Bolt.new Badge */}
+      <div className="fixed bottom-4 right-4 z-40">
+        <a
+          href="https://bolt.new"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center space-x-2 px-3 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm text-white dark:text-gray-200 text-xs font-medium rounded-full hover:bg-black/90 dark:hover:bg-white/20 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          <div className="w-4 h-4 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full flex items-center justify-center">
+            <div className="w-2 h-2 bg-white rounded-full"></div>
+          </div>
+          <span>Built with Bolt.new</span>
+          <ExternalLink className="h-3 w-3 opacity-70 group-hover:opacity-100 transition-opacity" />
+        </a>
       </div>
 
       <div className="h-full flex">
