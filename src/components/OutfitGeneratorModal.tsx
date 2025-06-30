@@ -204,22 +204,22 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto transition-colors duration-300">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
+        <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-700">
           <div className="flex items-center space-x-3">
             <div className="p-2 bg-gradient-to-r from-purple-600 to-teal-600 rounded-lg">
               <Wand2 className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">AI Outfit Generator</h2>
-              <p className="text-gray-600">Get personalized outfit suggestions for any occasion</p>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">AI Outfit Generator</h2>
+              <p className="text-gray-600 dark:text-gray-400">Get personalized outfit suggestions for any occasion</p>
             </div>
           </div>
           <button
             onClick={handleClose}
             disabled={loading}
-            className="p-2 text-gray-400 hover:text-gray-600 rounded-lg transition-colors disabled:opacity-50"
+            className="p-2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 rounded-lg transition-colors disabled:opacity-50"
           >
             <X className="h-5 w-5" />
           </button>
@@ -229,9 +229,9 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
         <div className="p-6">
           {/* Error Message */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex items-center space-x-2">
-              <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
-              <p className="text-red-600 text-sm">{error}</p>
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6 flex items-center space-x-2">
+              <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+              <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
             </div>
           )}
 
@@ -240,12 +240,12 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
             <div className="space-y-6">
               {/* Weather Info */}
               {weather && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                   <div className="flex items-center space-x-2 mb-2">
-                    <MapPin className="h-4 w-4 text-blue-600" />
-                    <span className="font-medium text-blue-800">Current Weather</span>
+                    <MapPin className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                    <span className="font-medium text-blue-800 dark:text-blue-300">Current Weather</span>
                   </div>
-                  <p className="text-blue-700">
+                  <p className="text-blue-700 dark:text-blue-400">
                     {weather.temperature}°C, {weather.description} in {weather.city}
                   </p>
                 </div>
@@ -253,7 +253,7 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
 
               {/* Occasion */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   <Calendar className="h-4 w-4 inline mr-2" />
                   What's the occasion? *
                 </label>
@@ -265,8 +265,8 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
                       onClick={() => setFormData(prev => ({ ...prev, occasion }))}
                       className={`p-3 text-left border rounded-lg transition-colors ${
                         formData.occasion === occasion
-                          ? 'border-purple-500 bg-purple-50 text-purple-700'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-purple-500 dark:border-purple-400 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
+                          : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 dark:bg-gray-700/50 dark:text-gray-300'
                       }`}
                     >
                       <span className="text-sm font-medium">{occasion}</span>
@@ -277,7 +277,7 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
 
               {/* Style Preferences */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   <Palette className="h-4 w-4 inline mr-2" />
                   Style Preferences (Optional)
                 </label>
@@ -293,8 +293,8 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
                       )}
                       className={`p-2 text-center border rounded-lg transition-colors ${
                         formData.style_preferences.includes(style)
-                          ? 'border-teal-500 bg-teal-50 text-teal-700'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-teal-500 dark:border-teal-400 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                          : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 dark:bg-gray-700/50 dark:text-gray-300'
                       }`}
                     >
                       <span className="text-sm">{style}</span>
@@ -305,7 +305,7 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
 
               {/* Color Preferences */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Color Preferences (Optional)
                 </label>
                 <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
@@ -320,13 +320,13 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
                       )}
                       className={`p-2 text-center border rounded-lg transition-colors ${
                         formData.color_preferences.includes(color)
-                          ? 'border-purple-500 bg-purple-50 text-purple-700'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? 'border-purple-500 dark:border-purple-400 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
+                          : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 dark:bg-gray-700/50 dark:text-gray-300'
                       }`}
                     >
                       <div className="flex items-center justify-center space-x-1">
                         <div
-                          className="w-3 h-3 rounded-full border border-gray-300"
+                          className="w-3 h-3 rounded-full border border-gray-300 dark:border-gray-500"
                           style={{ backgroundColor: color.toLowerCase() === 'white' ? '#ffffff' : color.toLowerCase() }}
                         />
                         <span className="text-xs">{color}</span>
@@ -338,7 +338,7 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
 
               {/* Comfort Level */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Comfort Priority
                 </label>
                 <div className="space-y-2">
@@ -352,7 +352,7 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
                         onChange={(e) => setFormData(prev => ({ ...prev, comfort_level: e.target.value }))}
                         className="mr-3 text-purple-600 focus:ring-purple-500"
                       />
-                      <span className="text-gray-700">{level.label}</span>
+                      <span className="text-gray-700 dark:text-gray-300">{level.label}</span>
                     </label>
                   ))}
                 </div>
@@ -360,7 +360,7 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
 
               {/* Additional Notes */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                   <MessageSquare className="h-4 w-4 inline mr-2" />
                   Additional Notes (Optional)
                 </label>
@@ -368,7 +368,7 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
                   value={formData.additional_notes}
                   onChange={(e) => setFormData(prev => ({ ...prev, additional_notes: e.target.value }))}
                   placeholder="Any specific requirements, preferences, or constraints..."
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
                   rows={3}
                 />
               </div>
@@ -400,35 +400,35 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
               {/* Header */}
               <div className="text-center">
                 <div className="flex items-center justify-center space-x-2 mb-2">
-                  <Check className="h-6 w-6 text-green-600" />
-                  <h3 className="text-xl font-semibold text-gray-800">
+                  <Check className="h-6 w-6 text-green-600 dark:text-green-400" />
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
                     Outfit Suggestions Generated!
                   </h3>
                 </div>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400">
                   For {formData.occasion} • {suggestions.outfits.length} suggestions
                 </p>
               </div>
 
               {/* General Tips */}
               {suggestions.general_tips && (
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <h4 className="font-medium text-blue-800 mb-2">Styling Tips</h4>
-                  <p className="text-blue-700 text-sm">{suggestions.general_tips}</p>
+                <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                  <h4 className="font-medium text-blue-800 dark:text-blue-300 mb-2">Styling Tips</h4>
+                  <p className="text-blue-700 dark:text-blue-400 text-sm">{suggestions.general_tips}</p>
                 </div>
               )}
 
               {/* Outfit Suggestions */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {suggestions.outfits.map((outfit, index) => (
-                  <div key={index} className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                  <div key={index} className="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
                     {/* Outfit Images */}
-                    <div className="aspect-square bg-gray-50 relative">
+                    <div className="aspect-square bg-gray-50 dark:bg-gray-600 relative">
                       <div className="grid grid-cols-2 gap-1 p-2 h-full">
                         {outfit.items.slice(0, 4).map((item, itemIndex) => (
                           <div
                             key={item.id}
-                            className="bg-white rounded-lg overflow-hidden border border-gray-200"
+                            className="bg-white dark:bg-gray-500 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-500"
                           >
                             <img
                               src={item.image_url}
@@ -438,15 +438,15 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
                           </div>
                         ))}
                         {outfit.items.length > 4 && (
-                          <div className="bg-gray-200 rounded-lg flex items-center justify-center">
-                            <span className="text-sm text-gray-600">+{outfit.items.length - 4}</span>
+                          <div className="bg-gray-200 dark:bg-gray-500 rounded-lg flex items-center justify-center">
+                            <span className="text-sm text-gray-600 dark:text-gray-300">+{outfit.items.length - 4}</span>
                           </div>
                         )}
                       </div>
 
                       {/* Confidence Score */}
-                      <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1">
-                        <span className="text-xs font-medium text-gray-700">
+                      <div className="absolute top-2 right-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-2 py-1">
+                        <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
                           {Math.round(outfit.confidence * 100)}%
                         </span>
                       </div>
@@ -454,28 +454,28 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
 
                     {/* Outfit Info */}
                     <div className="p-4">
-                      <h4 className="font-semibold text-gray-800 mb-2">{outfit.name}</h4>
+                      <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-2">{outfit.name}</h4>
                       
                       <div className="space-y-3">
                         <div>
-                          <p className="text-sm text-gray-600 mb-1">Why this works:</p>
-                          <p className="text-sm text-gray-800">{outfit.reasoning}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Why this works:</p>
+                          <p className="text-sm text-gray-800 dark:text-gray-300">{outfit.reasoning}</p>
                         </div>
 
                         {outfit.style_notes && (
                           <div>
-                            <p className="text-sm text-gray-600 mb-1">Styling tips:</p>
-                            <p className="text-sm text-gray-800">{outfit.style_notes}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Styling tips:</p>
+                            <p className="text-sm text-gray-800 dark:text-gray-300">{outfit.style_notes}</p>
                           </div>
                         )}
 
-                        <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-                          <span className="text-xs text-gray-500">
+                        <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-600">
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
                             {outfit.items.length} items
                           </span>
                           <button
                             onClick={() => saveOutfit(outfit)}
-                            className="px-3 py-1 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition-colors"
+                            className="px-3 py-1 bg-purple-600 dark:bg-purple-700 text-white text-sm rounded-lg hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors"
                           >
                             Save Outfit
                           </button>
@@ -487,16 +487,16 @@ export default function OutfitGeneratorModal({ isOpen, onClose, weather }: Outfi
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100">
+              <div className="flex items-center justify-center space-x-4 pt-6 border-t border-gray-100 dark:border-gray-700">
                 <button
                   onClick={() => setSuggestions(null)}
-                  className="px-6 py-3 text-gray-600 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-6 py-3 text-gray-600 dark:text-gray-400 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   Generate New Suggestions
                 </button>
                 <button
                   onClick={handleClose}
-                  className="px-6 py-3 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors"
+                  className="px-6 py-3 bg-gray-600 dark:bg-gray-700 text-white font-medium rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
                 >
                   Close
                 </button>
