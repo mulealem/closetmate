@@ -16,26 +16,48 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const isActive = (path: string) => location.pathname === path;
 
   const handleSignOut = async () => {
-    await signOut();
-    setIsUserDropdownOpen(false);
+    try {
+      await signOut();
+      setIsUserDropdownOpen(false);
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   const handleAddItemSuccess = () => {
-    // Close modal and trigger wardrobe update
     setIsAddModalOpen(false);
     setIsAIModalOpen(false);
     window.dispatchEvent(new CustomEvent('wardrobeUpdated'));
   };
 
   // Get user initials for avatar
-  const getUserInitials = (email: string) => {
-    if (!email) return 'U';
-    const name = email.split('@')[0];
-    const parts = name.split(/[._-]/);
-    if (parts.length >= 2) {
-      return (parts[0][0] + parts[1][0]).toUpperCase();
+  const getUserInitials = (email: string | undefined) => {
+    if (!email || typeof email !== 'string') return 'U';
+    try {
+      const name = email.split('@')[0];
+      if (!name) return 'U';
+      
+      const parts = name.split(/[._-]/);
+      if (parts.length >= 2 && parts[0] && parts[1]) {
+        return (parts[0][0] + parts[1][0]).toUpperCase();
+      }
+      return name.slice(0, 2).toUpperCase();
+    } catch (error) {
+      console.error('Error getting user initials:', error);
+      return 'U';
     }
-    return name.slice(0, 2).toUpperCase();
+  };
+
+  // Get username from email
+  const getUsername = (email: string | undefined) => {
+    if (!email || typeof email !== 'string') return 'User';
+    try {
+      const username = email.split('@')[0];
+      return username || 'User';
+    } catch (error) {
+      console.error('Error getting username:', error);
+      return 'User';
+    }
   };
 
   // Close dropdown when clicking outside
@@ -46,9 +68,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    if (isUserDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isUserDropdownOpen]);
 
   // Listen for the custom event to open the modal
   useEffect(() => {
@@ -68,12 +92,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // Debug logging
+  useEffect(() => {
+    console.log('Layout component rendered with user:', user);
+    console.log('User email:', user?.email);
+    console.log('User initials:', getUserInitials(user?.email));
+  }, [user]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
       {/* Header */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-purple-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
+            {/* Logo */}
             <Link to="/" className="flex items-center space-x-2">
               <div className="bg-gradient-to-r from-purple-600 to-teal-600 p-2 rounded-lg">
                 <Shirt className="h-6 w-6 text-white" />
@@ -83,8 +115,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </span>
             </Link>
 
+            {/* Right side actions */}
             <div className="flex items-center space-x-4">
-              {user && (
+              {user ? (
                 <>
                   {/* AI Analysis Button */}
                   <button
@@ -95,7 +128,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <span className="hidden sm:block">AI Analysis</span>
                   </button>
 
-                  {/* Regular Add Item Button */}
+                  {/* Manual Add Item Button */}
                   <button
                     onClick={() => setIsAddModalOpen(true)}
                     className="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-all duration-200 shadow-sm hover:shadow-md"
@@ -107,18 +140,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   {/* User Dropdown */}
                   <div className="relative" ref={dropdownRef}>
                     <button
-                      onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                      onClick={() => {
+                        console.log('User dropdown clicked, current state:', isUserDropdownOpen);
+                        setIsUserDropdownOpen(!isUserDropdownOpen);
+                      }}
                       className="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                     >
                       {/* User Avatar */}
                       <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-teal-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm">
-                        {getUserInitials(user.email || '')}
+                        {getUserInitials(user.email)}
                       </div>
                       
                       {/* Username and Chevron (hidden on mobile) */}
                       <div className="hidden sm:flex items-center space-x-1">
                         <span className="text-sm font-medium text-gray-700 max-w-32 truncate">
-                          {user.email?.split('@')[0] || 'User'}
+                          {getUsername(user.email)}
                         </span>
                         <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
                           isUserDropdownOpen ? 'rotate-180' : ''
@@ -128,16 +164,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
                     {/* Dropdown Menu */}
                     {isUserDropdownOpen && (
-                      <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 transform transition-all duration-200 origin-top-right animate-in slide-in-from-top-2">
+                      <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
                         {/* User Info */}
                         <div className="px-4 py-3 border-b border-gray-100">
                           <div className="flex items-center space-x-3">
                             <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-teal-600 rounded-full flex items-center justify-center text-white font-semibold shadow-sm">
-                              {getUserInitials(user.email || '')}
+                              {getUserInitials(user.email)}
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-medium text-gray-900 truncate">
-                                {user.email?.split('@')[0] || 'User'}
+                                {getUsername(user.email)}
                               </p>
                               <p className="text-xs text-gray-500 truncate">
                                 {user.email || 'No email'}
@@ -191,6 +227,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     )}
                   </div>
                 </>
+              ) : (
+                <div className="text-sm text-gray-600">
+                  Loading...
+                </div>
               )}
             </div>
           </div>
