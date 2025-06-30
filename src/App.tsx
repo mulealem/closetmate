@@ -4,6 +4,7 @@ import { useAuth } from './hooks/useAuth';
 import { useDarkMode } from './hooks/useDarkMode';
 import Layout from './components/Layout';
 import AuthForm from './components/AuthForm';
+import AuthCallback from './components/AuthCallback';
 import Dashboard from './pages/Dashboard';
 import Wardrobe from './pages/Wardrobe';
 import Favorites from './pages/Favorites';
@@ -29,21 +30,33 @@ function App() {
     );
   }
 
-  if (!user) {
-    return <AuthForm />;
-  }
-
   return (
     <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/wardrobe" element={<Wardrobe />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/preferences" element={<Preferences />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Layout>
+      <Routes>
+        {/* Auth callback route - accessible without authentication */}
+        <Route path="/auth/callback" element={<AuthCallback />} />
+        
+        {/* Protected routes */}
+        {user ? (
+          <Route path="/*" element={
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/wardrobe" element={<Wardrobe />} />
+                <Route path="/favorites" element={<Favorites />} />
+                <Route path="/preferences" element={<Preferences />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </Layout>
+          } />
+        ) : (
+          <>
+            {/* Auth routes */}
+            <Route path="/auth" element={<AuthForm />} />
+            <Route path="*" element={<Navigate to="/auth" replace />} />
+          </>
+        )}
+      </Routes>
     </Router>
   );
 }

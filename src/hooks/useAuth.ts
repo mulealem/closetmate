@@ -35,7 +35,7 @@ export function useAuth() {
       email,
       password,
       options: {
-        emailRedirectTo: undefined, // Disable email confirmation
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
       },
     });
     return { data, error };
@@ -46,11 +46,23 @@ export function useAuth() {
     return { error };
   };
 
+  const resendConfirmation = async (email: string) => {
+    const { data, error } = await supabase.auth.resend({
+      type: 'signup',
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+    return { data, error };
+  };
+
   return {
     user,
     loading,
     signIn,
     signUp,
     signOut,
+    resendConfirmation,
   };
 }

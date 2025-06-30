@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { Mail, Lock, Eye, EyeOff, Shirt, Sparkles, Camera, Wand2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Shirt, Sparkles, Camera, Wand2, CheckCircle, AlertCircle, RefreshCw } from 'lucide-react';
 import DarkModeToggle from './DarkModeToggle';
 
 export default function AuthForm() {
@@ -10,26 +10,79 @@ export default function AuthForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { signIn, signUp } = useAuth();
+  const [confirmationSent, setConfirmationSent] = useState(false);
+  const [resendingConfirmation, setResendingConfirmation] = useState(false);
+  const { signIn, signUp, resendConfirmation } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setConfirmationSent(false);
 
     try {
-      const { error } = isSignUp 
-        ? await signUp(email, password)
-        : await signIn(email, password);
-
-      if (error) {
-        setError(error.message);
+      if (isSignUp) {
+        const { data, error } = await signUp(email, password);
+        
+        if (error) {
+          setError(error.message);
+        } else if (data.user && !data.session) {
+          // User created but needs email confirmation
+          setConfirmationSent(true);
+        }
+      } else {
+        const { error } = await signIn(email, password);
+        
+        if (error) {
+          if (error.message.includes('Email not confirmed')) {
+            setError('Please check your email and click the confirmation link before signing in.');
+          } else {
+            setError(error.message);
+          }
+        }
       }
     } catch (err) {
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleResendConfirmation = async () => {
+    if (!email) {
+      setError('Please enter your email address');
+      return;
+    }
+
+    setResendingConfirmation(true);
+    setError('');
+
+    try {
+      const { error } = await resendConfirmation(email);
+      
+      if (error) {
+        setError(error.message);
+      } else {
+        setConfirmationSent(true);
+      }
+    } catch (err) {
+      setError('Failed to resend confirmation email');
+    } finally {
+      setResendingConfirmation(false);
+    }
+  };
+
+  const resetForm = () => {
+    setEmail('');
+    setPassword('');
+    setError('');
+    setConfirmationSent(false);
+    setShowPassword(false);
+  };
+
+  const toggleAuthMode = () => {
+    setIsSignUp(!isSignUp);
+    resetForm();
   };
 
   return (
@@ -53,104 +106,180 @@ export default function AuthForm() {
 
             {/* Auth Form */}
             <div className="bg-white/10 dark:bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-white/20 dark:border-gray-700/50 shadow-2xl">
-              <div className="text-center mb-5">
-                <h2 className="text-xl font-semibold text-white mb-1">
-                  {isSignUp ? 'Create Account' : 'Welcome Back'}
-                </h2>
-                <p className="text-sm text-purple-100 dark:text-gray-300">
-                  {isSignUp 
-                    ? 'Start organizing your wardrobe today' 
-                    : 'Sign in to access your closet'
-                  }
-                </p>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Email */}
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
-                    Email
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-purple-300 dark:text-gray-400" />
-                    <input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      className="w-full pl-9 pr-4 py-2.5 bg-white/10 dark:bg-gray-700/50 border border-white/20 dark:border-gray-600 rounded-lg text-white placeholder-purple-200 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 dark:focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter your email"
-                    />
+              {confirmationSent ? (
+                /* Confirmation Sent State */
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
+                    <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
                   </div>
-                </div>
-
-                {/* Password */}
-                <div>
-                  <label htmlFor="password" className="block text-sm font-medium text-white mb-1">
-                    Password
-                  </label>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-purple-300 dark:text-gray-400" />
-                    <input
-                      id="password"
-                      type={showPassword ? 'text' : 'password'}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      minLength={6}
-                      className="w-full pl-9 pr-10 py-2.5 bg-white/10 dark:bg-gray-700/50 border border-white/20 dark:border-gray-600 rounded-lg text-white placeholder-purple-200 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 dark:focus:ring-purple-500 focus:border-transparent transition-all duration-200"
-                      placeholder="Enter your password"
-                    />
+                  <h2 className="text-xl font-semibold text-white mb-2">
+                    Check Your Email
+                  </h2>
+                  <p className="text-sm text-purple-100 dark:text-gray-300 mb-6">
+                    We've sent a confirmation link to <strong>{email}</strong>. 
+                    Please check your email and click the link to activate your account.
+                  </p>
+                  
+                  <div className="space-y-4">
                     <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
+                      onClick={handleResendConfirmation}
+                      disabled={resendingConfirmation}
+                      className="w-full py-2.5 px-4 bg-white/20 dark:bg-gray-700/50 text-white font-medium rounded-lg hover:bg-white/30 dark:hover:bg-gray-600/50 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center space-x-2"
                     >
-                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {resendingConfirmation ? (
+                        <>
+                          <RefreshCw className="h-4 w-4 animate-spin" />
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Mail className="h-4 w-4" />
+                          <span>Resend Confirmation</span>
+                        </>
+                      )}
+                    </button>
+                    
+                    <button
+                      onClick={() => {
+                        setConfirmationSent(false);
+                        setIsSignUp(false);
+                      }}
+                      className="w-full py-2.5 px-4 text-purple-100 dark:text-gray-300 font-medium rounded-lg hover:bg-white/10 dark:hover:bg-gray-700/30 transition-all duration-200"
+                    >
+                      Back to Sign In
                     </button>
                   </div>
                 </div>
-
-                {/* Error Message */}
-                {error && (
-                  <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-3">
-                    <p className="text-red-100 text-sm">{error}</p>
+              ) : (
+                /* Regular Auth Form */
+                <>
+                  <div className="text-center mb-5">
+                    <h2 className="text-xl font-semibold text-white mb-1">
+                      {isSignUp ? 'Create Account' : 'Welcome Back'}
+                    </h2>
+                    <p className="text-sm text-purple-100 dark:text-gray-300">
+                      {isSignUp 
+                        ? 'Start organizing your wardrobe today' 
+                        : 'Sign in to access your closet'
+                      }
+                    </p>
                   </div>
-                )}
 
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-2.5 px-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  {loading ? (
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-600"></div>
-                      <span>Please wait...</span>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    {/* Email */}
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-white mb-1">
+                        Email
+                      </label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-purple-300 dark:text-gray-400" />
+                        <input
+                          id="email"
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          required
+                          className="w-full pl-9 pr-4 py-2.5 bg-white/10 dark:bg-gray-700/50 border border-white/20 dark:border-gray-600 rounded-lg text-white placeholder-purple-200 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 dark:focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                          placeholder="Enter your email"
+                        />
+                      </div>
                     </div>
-                  ) : (
-                    isSignUp ? 'Create Account' : 'Sign In'
-                  )}
-                </button>
-              </form>
 
-              {/* Toggle Auth Mode */}
-              <div className="mt-5 text-center">
-                <button
-                  onClick={() => {
-                    setIsSignUp(!isSignUp);
-                    setError('');
-                  }}
-                  className="text-sm text-purple-100 dark:text-gray-300 hover:text-white dark:hover:text-gray-100 transition-colors font-medium"
-                >
-                  {isSignUp 
-                    ? 'Already have an account? Sign in' 
-                    : "Don't have an account? Sign up"
-                  }
-                </button>
-              </div>
+                    {/* Password */}
+                    <div>
+                      <label htmlFor="password" className="block text-sm font-medium text-white mb-1">
+                        Password
+                      </label>
+                      <div className="relative">
+                        <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-purple-300 dark:text-gray-400" />
+                        <input
+                          id="password"
+                          type={showPassword ? 'text' : 'password'}
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          required
+                          minLength={6}
+                          className="w-full pl-9 pr-10 py-2.5 bg-white/10 dark:bg-gray-700/50 border border-white/20 dark:border-gray-600 rounded-lg text-white placeholder-purple-200 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/30 dark:focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                          placeholder="Enter your password"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors"
+                        >
+                          {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
+                      {isSignUp && (
+                        <p className="text-xs text-purple-200 dark:text-gray-400 mt-1">
+                          Password must be at least 6 characters long
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Error Message */}
+                    {error && (
+                      <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-3 flex items-start space-x-2">
+                        <AlertCircle className="h-4 w-4 text-red-100 flex-shrink-0 mt-0.5" />
+                        <p className="text-red-100 text-sm">{error}</p>
+                      </div>
+                    )}
+
+                    {/* Email Confirmation Notice for Sign Up */}
+                    {isSignUp && (
+                      <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3 flex items-start space-x-2">
+                        <Mail className="h-4 w-4 text-blue-100 flex-shrink-0 mt-0.5" />
+                        <div className="text-blue-100 text-sm">
+                          <p className="font-medium mb-1">Email Confirmation Required</p>
+                          <p>You'll need to verify your email address before you can sign in.</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Submit Button */}
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="w-full py-2.5 px-4 bg-white text-purple-600 font-semibold rounded-lg hover:bg-purple-50 focus:outline-none focus:ring-2 focus:ring-white/30 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+                    >
+                      {loading ? (
+                        <div className="flex items-center justify-center space-x-2">
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-600"></div>
+                          <span>Please wait...</span>
+                        </div>
+                      ) : (
+                        isSignUp ? 'Create Account' : 'Sign In'
+                      )}
+                    </button>
+                  </form>
+
+                  {/* Toggle Auth Mode */}
+                  <div className="mt-5 text-center">
+                    <button
+                      onClick={toggleAuthMode}
+                      className="text-sm text-purple-100 dark:text-gray-300 hover:text-white dark:hover:text-gray-100 transition-colors font-medium"
+                    >
+                      {isSignUp 
+                        ? 'Already have an account? Sign in' 
+                        : "Don't have an account? Sign up"
+                      }
+                    </button>
+                  </div>
+
+                  {/* Resend Confirmation Link */}
+                  {!isSignUp && (
+                    <div className="mt-3 text-center">
+                      <button
+                        onClick={handleResendConfirmation}
+                        disabled={resendingConfirmation || !email}
+                        className="text-xs text-purple-200 dark:text-gray-400 hover:text-white dark:hover:text-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {resendingConfirmation ? 'Sending...' : 'Resend confirmation email'}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>
