@@ -220,8 +220,8 @@ export default function Wardrobe() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your wardrobe...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 dark:border-purple-400 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading your wardrobe...</p>
         </div>
       </div>
     );
@@ -233,13 +233,13 @@ export default function Wardrobe() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Wardrobe</h1>
-            <p className="text-gray-600">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Your Wardrobe</h1>
+            <p className="text-gray-600 dark:text-gray-400">
               Manage your clothing collection ({filteredItems.length} of {clothingItems.length} items)
             </p>
             {error && (
-              <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-600 text-sm">⚠️ {error}</p>
+              <div className="mt-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                <p className="text-red-600 dark:text-red-400 text-sm">⚠️ {error}</p>
               </div>
             )}
           </div>
@@ -247,7 +247,7 @@ export default function Wardrobe() {
             <button
               onClick={handleRefresh}
               disabled={refreshing}
-              className="inline-flex items-center px-3 py-2 text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
+              className="inline-flex items-center px-3 py-2 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
             >
               <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
               Refresh
@@ -266,7 +266,7 @@ export default function Wardrobe() {
             {/* Manual Add Button */}
             <button
               onClick={handleOpenAddModal}
-              className="inline-flex items-center px-4 py-2 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-all duration-200 shadow-sm hover:shadow-md"
+              className="inline-flex items-center px-4 py-2 bg-gray-600 dark:bg-gray-700 text-white font-medium rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-200 shadow-sm hover:shadow-md"
             >
               <Plus className="h-4 w-4 mr-2" />
               <span className="hidden sm:block">Manual Add</span>
@@ -276,18 +276,18 @@ export default function Wardrobe() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-100 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 mb-8 transition-colors duration-300">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Search */}
             <div className="lg:col-span-2">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search by color, category, or tags..."
-                  className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
                 />
               </div>
             </div>
@@ -296,7 +296,7 @@ export default function Wardrobe() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
             >
               {categories.map(category => (
                 <option key={category} value={category}>
@@ -309,7 +309,7 @@ export default function Wardrobe() {
             <select
               value={selectedColor}
               onChange={(e) => setSelectedColor(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
             >
               {getUniqueColors().map(color => (
                 <option key={color} value={color}>
@@ -322,7 +322,7 @@ export default function Wardrobe() {
             <select
               value={selectedWarmth}
               onChange={(e) => setSelectedWarmth(e.target.value)}
-              className="px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
             >
               {warmthLevels.map(warmth => (
                 <option key={warmth} value={warmth}>
@@ -333,10 +333,10 @@ export default function Wardrobe() {
           </div>
 
           {/* View Toggle */}
-          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+          <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
             <div className="flex items-center space-x-2">
-              <Filter className="h-4 w-4 text-gray-500" />
-              <span className="text-sm text-gray-600">
+              <Filter className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+              <span className="text-sm text-gray-600 dark:text-gray-400">
                 {filteredItems.length} of {clothingItems.length} items
               </span>
             </div>
@@ -344,7 +344,7 @@ export default function Wardrobe() {
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'grid' ? 'bg-purple-100 text-purple-600' : 'text-gray-400 hover:text-gray-600'
+                  viewMode === 'grid' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
                 }`}
               >
                 <Grid className="h-4 w-4" />
@@ -352,7 +352,7 @@ export default function Wardrobe() {
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-lg transition-colors ${
-                  viewMode === 'list' ? 'bg-purple-100 text-purple-600' : 'text-gray-400 hover:text-gray-600'
+                  viewMode === 'list' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
                 }`}
               >
                 <List className="h-4 w-4" />
@@ -363,15 +363,15 @@ export default function Wardrobe() {
 
         {/* Items Grid/List */}
         {filteredItems.length === 0 ? (
-          <div className="bg-gray-50 rounded-2xl p-12 text-center">
-            <div className="text-gray-400 mb-4">
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-12 text-center transition-colors duration-300">
+            <div className="text-gray-400 dark:text-gray-600 mb-4">
               {clothingItems.length === 0 ? (
                 <div>
                   <Plus className="h-12 w-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-600 mb-2">
+                  <h3 className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">
                     Your wardrobe is empty
                   </h3>
-                  <p className="text-gray-500 mb-6">
+                  <p className="text-gray-500 dark:text-gray-500 mb-6">
                     Start building your digital closet by adding your first clothing item!
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -384,7 +384,7 @@ export default function Wardrobe() {
                     </button>
                     <button
                       onClick={handleOpenAddModal}
-                      className="inline-flex items-center px-6 py-3 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors"
+                      className="inline-flex items-center px-6 py-3 bg-gray-600 dark:bg-gray-700 text-white font-medium rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
                     >
                       <Plus className="h-4 w-4 mr-2" />
                       Manual Entry
@@ -394,10 +394,10 @@ export default function Wardrobe() {
               ) : (
                 <div>
                   <Search className="h-12 w-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-600 mb-2">
+                  <h3 className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">
                     No items match your filters
                   </h3>
-                  <p className="text-gray-500 mb-4">
+                  <p className="text-gray-500 dark:text-gray-500 mb-4">
                     Try adjusting your search criteria or clear the filters.
                   </p>
                   <button
@@ -407,7 +407,7 @@ export default function Wardrobe() {
                       setSelectedColor('all');
                       setSelectedWarmth('all');
                     }}
-                    className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                    className="px-4 py-2 bg-gray-600 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
                   >
                     Clear Filters
                   </button>
@@ -423,13 +423,13 @@ export default function Wardrobe() {
             {filteredItems.map((item) => (
               <div
                 key={item.id}
-                className={`bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-200 cursor-pointer ${
+                className={`bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-lg transition-all duration-200 cursor-pointer ${
                   viewMode === 'list' ? 'flex' : ''
                 }`}
                 onClick={() => handleItemClick(item)}
               >
                 {/* Image */}
-                <div className={`${viewMode === 'list' ? 'w-24 h-24 flex-shrink-0' : 'aspect-square'} bg-gray-50 relative group`}>
+                <div className={`${viewMode === 'list' ? 'w-24 h-24 flex-shrink-0' : 'aspect-square'} bg-gray-50 dark:bg-gray-700 relative group`}>
                   <img
                     src={item.image_url}
                     alt={`${item.category} - ${item.color}`}
@@ -463,15 +463,15 @@ export default function Wardrobe() {
                 <div className={`p-4 ${viewMode === 'list' ? 'flex-1' : ''}`}>
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h3 className="font-semibold text-gray-800 capitalize">
+                      <h3 className="font-semibold text-gray-800 dark:text-gray-200 capitalize">
                         {item.category}
                       </h3>
-                      <p className="text-sm text-gray-600 capitalize">{item.color}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 capitalize">{item.color}</p>
                     </div>
                     <span className={`px-2 py-1 text-xs rounded-full font-medium ${
-                      item.warmth_level === 'light' ? 'bg-yellow-100 text-yellow-700' :
-                      item.warmth_level === 'medium' ? 'bg-orange-100 text-orange-700' :
-                      'bg-red-100 text-red-700'
+                      item.warmth_level === 'light' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400' :
+                      item.warmth_level === 'medium' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400' :
+                      'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
                     }`}>
                       {item.warmth_level}
                     </span>
@@ -483,22 +483,22 @@ export default function Wardrobe() {
                       {item.tags.slice(0, 3).map((tag, index) => (
                         <span
                           key={index}
-                          className="px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded-full font-medium"
+                          className="px-2 py-1 text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-full font-medium"
                         >
                           {tag}
                         </span>
                       ))}
                       {item.tags.length > 3 && (
-                        <span className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">
+                        <span className="px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full">
                           +{item.tags.length - 3}
                         </span>
                       )}
                     </div>
                   )}
 
-                  <div className="text-xs text-gray-400 mt-3 flex items-center justify-between">
+                  <div className="text-xs text-gray-400 dark:text-gray-500 mt-3 flex items-center justify-between">
                     <span>Added {new Date(item.created_at).toLocaleDateString()}</span>
-                    <span className="text-purple-600 font-medium">Click to view</span>
+                    <span className="text-purple-600 dark:text-purple-400 font-medium">Click to view</span>
                   </div>
                 </div>
               </div>

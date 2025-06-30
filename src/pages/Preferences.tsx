@@ -118,7 +118,7 @@ export default function Preferences() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 dark:border-purple-400"></div>
       </div>
     );
   }
@@ -128,24 +128,24 @@ export default function Preferences() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center space-x-3 mb-4">
-          <Settings className="h-8 w-8 text-purple-600" />
-          <h1 className="text-3xl font-bold text-gray-900">Preferences</h1>
+          <Settings className="h-8 w-8 text-purple-600 dark:text-purple-400" />
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Preferences</h1>
         </div>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-400">
           Customize your ClosetMate experience for better outfit suggestions.
         </p>
       </div>
 
       <div className="space-y-8">
         {/* Location Settings */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
           <div className="flex items-center space-x-3 mb-6">
-            <MapPin className="h-6 w-6 text-blue-600" />
-            <h2 className="text-xl font-semibold text-gray-800">Location</h2>
+            <MapPin className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Location</h2>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
               Your City
             </label>
             <input
@@ -153,22 +153,22 @@ export default function Preferences() {
               value={formData.city}
               onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
               placeholder="e.g., New York, London, Tokyo"
-              className="w-full max-w-md px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full max-w-md px-4 py-3 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
             />
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
               We'll use this to get accurate weather data for your outfit suggestions.
             </p>
           </div>
         </div>
 
         {/* Color Preferences */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
           <div className="flex items-center space-x-3 mb-6">
-            <Palette className="h-6 w-6 text-purple-600" />
-            <h2 className="text-xl font-semibold text-gray-800">Favorite Colors</h2>
+            <Palette className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Favorite Colors</h2>
           </div>
           
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
             Select colors you prefer to wear. We'll prioritize these in our suggestions.
           </p>
           
@@ -177,15 +177,15 @@ export default function Preferences() {
               <button
                 key={color}
                 onClick={() => handleColorToggle(color)}
-                className={`p-3 text-left border rounded-lg transition-colors ${
+                className={`p-3 text-left border rounded-lg transition-colors duration-300 ${
                   formData.preferred_colors.includes(color)
-                    ? 'border-purple-500 bg-purple-50 text-purple-700'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300' 
+                    : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 dark:bg-gray-700/50 dark:text-gray-300'
                 }`}
               >
                 <div className="flex items-center space-x-2">
                   <div
-                    className="w-4 h-4 rounded-full border border-gray-300"
+                    className="w-4 h-4 rounded-full border border-gray-300 dark:border-gray-500"
                     style={{ backgroundColor: color.toLowerCase() === 'white' ? '#ffffff' : color.toLowerCase() }}
                   />
                   <span className="text-sm font-medium">{color}</span>
@@ -196,13 +196,13 @@ export default function Preferences() {
         </div>
 
         {/* Category Preferences */}
-        <div className="bg-white rounded-2xl p-6 border border-gray-100">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
           <div className="flex items-center space-x-3 mb-6">
-            <Shirt className="h-6 w-6 text-teal-600" />
-            <h2 className="text-xl font-semibold text-gray-800">Preferred Categories</h2>
+            <Shirt className="h-6 w-6 text-teal-600 dark:text-teal-400" />
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Preferred Categories</h2>
           </div>
           
-          <p className="text-gray-600 mb-4">
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
             Tell us which types of clothing you prefer to wear more often.
           </p>
           
@@ -211,10 +211,10 @@ export default function Preferences() {
               <button
                 key={category.value}
                 onClick={() => handleCategoryToggle(category.value)}
-                className={`p-4 text-left border rounded-lg transition-colors ${
+                className={`p-4 text-left border rounded-lg transition-colors duration-300 ${
                   formData.preferred_categories.includes(category.value)
-                    ? 'border-teal-500 bg-teal-50 text-teal-700'
-                    : 'border-gray-200 hover:border-gray-300'
+                    ? 'border-teal-500 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300'
+                    : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 dark:bg-gray-700/50 dark:text-gray-300'
                 }`}
               >
                 <span className="font-medium">{category.label}</span>
@@ -228,7 +228,7 @@ export default function Preferences() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+            className="px-6 py-3 bg-purple-600 dark:bg-purple-700 text-white font-medium rounded-lg hover:bg-purple-700 dark:hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300 flex items-center space-x-2"
           >
             {saving ? (
               <>
@@ -246,9 +246,9 @@ export default function Preferences() {
       </div>
 
       {/* Tips */}
-      <div className="mt-12 bg-blue-50 rounded-2xl p-6 border border-blue-200">
-        <h3 className="text-lg font-semibold text-blue-800 mb-3">💡 Tips for Better Suggestions</h3>
-        <ul className="space-y-2 text-blue-700">
+      <div className="mt-12 bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 border border-blue-200 dark:border-blue-800 transition-colors duration-300">
+        <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300 mb-3">💡 Tips for Better Suggestions</h3>
+        <ul className="space-y-2 text-blue-700 dark:text-blue-400">
           <li>• Add more clothing items to your wardrobe for diverse outfit options</li>
           <li>• Rate outfits to help us learn what you like</li>
           <li>• Use specific colors (e.g., "Navy Blue" instead of just "Blue")</li>

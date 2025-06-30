@@ -128,7 +128,7 @@ export default function Favorites() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 dark:border-purple-400"></div>
       </div>
     );
   }
@@ -140,9 +140,9 @@ export default function Favorites() {
         <div className="mb-8">
           <div className="flex items-center space-x-3 mb-4">
             <Heart className="h-8 w-8 text-red-500 fill-current" />
-            <h1 className="text-3xl font-bold text-gray-900">Favorite Outfits</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Favorite Outfits</h1>
           </div>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-400">
             Your saved and loved outfit combinations ({filteredOutfits.length} outfits)
           </p>
         </div>
@@ -151,13 +151,13 @@ export default function Favorites() {
         {favoriteOutfits.length > 0 && (
           <div className="mb-8">
             <div className="relative max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search favorites..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors duration-300"
               />
             </div>
           </div>
@@ -165,27 +165,27 @@ export default function Favorites() {
 
         {/* Favorites Grid */}
         {filteredOutfits.length === 0 ? (
-          <div className="bg-gray-50 rounded-2xl p-12 text-center">
-            <Heart className="h-16 w-16 text-gray-300 mx-auto mb-6" />
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-12 text-center transition-colors duration-300">
+            <Heart className="h-16 w-16 text-gray-300 dark:text-gray-600 mx-auto mb-6" />
             {favoriteOutfits.length === 0 ? (
               <div>
-                <h3 className="text-xl font-medium text-gray-600 mb-3">
+                <h3 className="text-xl font-medium text-gray-600 dark:text-gray-400 mb-3">
                   No favorite outfits yet
                 </h3>
-                <p className="text-gray-500 mb-8">
+                <p className="text-gray-500 dark:text-gray-500 mb-8">
                   Start by creating some outfits and marking your favorites with the heart icon!
                 </p>
                 <div className="space-y-3">
                   <a
                     href="/"
-                    className="inline-block px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
+                    className="inline-block px-6 py-3 bg-purple-600 dark:bg-purple-700 text-white font-medium rounded-lg hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors"
                   >
                     Get Outfit Suggestions
                   </a>
                   <div>
                     <a
                       href="/wardrobe"
-                      className="text-purple-600 hover:text-purple-700 font-medium"
+                      className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium"
                     >
                       View Your Wardrobe →
                     </a>
@@ -194,10 +194,10 @@ export default function Favorites() {
               </div>
             ) : (
               <div>
-                <h3 className="text-xl font-medium text-gray-600 mb-3">
+                <h3 className="text-xl font-medium text-gray-600 dark:text-gray-400 mb-3">
                   No favorites match your search
                 </h3>
-                <p className="text-gray-500">
+                <p className="text-gray-500 dark:text-gray-500">
                   Try adjusting your search terms or clear the search.
                 </p>
               </div>
@@ -220,26 +220,26 @@ export default function Favorites() {
 
         {/* Stats */}
         {favoriteOutfits.length > 0 && (
-          <div className="mt-12 bg-white rounded-2xl p-6 border border-gray-100">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Favorites Stats</h3>
+          <div className="mt-12 bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Favorites Stats</h3>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600 mb-1">
+                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-1">
                   {favoriteOutfits.length}
                 </div>
-                <div className="text-sm text-gray-600">Total Favorites</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Total Favorites</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600 mb-1">
+                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-1">
                   {favoriteOutfits.filter(o => o.rating && o.rating >= 4).length}
                 </div>
-                <div className="text-sm text-gray-600">Highly Rated (4+ stars)</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Highly Rated (4+ stars)</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600 mb-1">
+                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-1">
                   {Math.round(favoriteOutfits.reduce((sum, o) => sum + (o.rating || 0), 0) / favoriteOutfits.length * 10) / 10 || 0}
                 </div>
-                <div className="text-sm text-gray-600">Average Rating</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Average Rating</div>
               </div>
             </div>
           </div>
