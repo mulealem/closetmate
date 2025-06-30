@@ -40,76 +40,7 @@ export default function AuthForm() {
       </div>
 
       <div className="h-full flex">
-        {/* Left Side - App Showcase (Hidden on mobile) */}
-        <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-          {/* Background Pattern */}
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-600/90 to-teal-600/90 dark:from-gray-900/90 dark:to-purple-900/90"></div>
-          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.05%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
-          
-          <div className="relative z-10 flex flex-col justify-center px-12 py-8 text-white">
-            {/* Logo & Branding */}
-            <div className="mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl mb-4">
-                <Shirt className="h-8 w-8 text-white" />
-              </div>
-              <h1 className="text-4xl font-bold mb-3 leading-tight">
-                ClosetMate
-              </h1>
-              <div className="w-20 h-1 bg-gradient-to-r from-white to-teal-300 rounded-full"></div>
-            </div>
-
-            {/* Main Value Proposition */}
-            <div className="mb-8">
-              <h2 className="text-2xl font-light leading-relaxed text-white/95 dark:text-gray-200 mb-3">
-                Transform your wardrobe with intelligent style recommendations
-              </h2>
-              <p className="text-base text-purple-200 dark:text-gray-400">
-                Upload photos, get AI analysis, and discover perfect outfit combinations for any occasion.
-              </p>
-            </div>
-
-            {/* Key Features */}
-            <div className="space-y-6">
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0 w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
-                  <Camera className="h-5 w-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-1">AI Photo Analysis</h3>
-                  <p className="text-sm text-purple-100 dark:text-gray-300">
-                    Automatically categorize clothing with 40+ detailed properties
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0 w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
-                  <Wand2 className="h-5 w-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-1">Smart Recommendations</h3>
-                  <p className="text-sm text-purple-100 dark:text-gray-300">
-                    Get personalized outfits based on weather and occasion
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0 w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
-                  <Sparkles className="h-5 w-5 text-white" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-1">Style Evolution</h3>
-                  <p className="text-sm text-purple-100 dark:text-gray-300">
-                    Track preferences and optimize your wardrobe over time
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Side - Login Form */}
+        {/* Left Side - Login Form */}
         <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-8">
           <div className="max-w-md w-full">
             {/* Mobile Logo (Visible only on mobile) */}
@@ -219,6 +150,75 @@ export default function AuthForm() {
                     : "Don't have an account? Sign up"
                   }
                 </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - App Showcase (Hidden on mobile) */}
+        <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-600/90 to-teal-600/90 dark:from-gray-900/90 dark:to-purple-900/90"></div>
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 viewBox=%220 0 60 60%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg fill=%22none%22 fill-rule=%22evenodd%22%3E%3Cg fill=%22%23ffffff%22 fill-opacity=%220.05%22%3E%3Ccircle cx=%2230%22 cy=%2230%22 r=%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
+          
+          <div className="relative z-10 flex flex-col justify-center px-12 py-8 text-white">
+            {/* Logo & Branding */}
+            <div className="mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 backdrop-blur-sm rounded-2xl mb-4">
+                <Shirt className="h-8 w-8 text-white" />
+              </div>
+              <h1 className="text-4xl font-bold mb-3 leading-tight">
+                ClosetMate
+              </h1>
+              <div className="w-20 h-1 bg-gradient-to-r from-white to-teal-300 rounded-full"></div>
+            </div>
+
+            {/* Main Value Proposition */}
+            <div className="mb-8">
+              <h2 className="text-2xl font-light leading-relaxed text-white/95 dark:text-gray-200 mb-3">
+                Transform your wardrobe with intelligent style recommendations
+              </h2>
+              <p className="text-base text-purple-200 dark:text-gray-400">
+                Upload photos, get AI analysis, and discover perfect outfit combinations for any occasion.
+              </p>
+            </div>
+
+            {/* Key Features */}
+            <div className="space-y-6">
+              <div className="flex items-center space-x-3">
+                <div className="flex-shrink-0 w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
+                  <Camera className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-1">AI Photo Analysis</h3>
+                  <p className="text-sm text-purple-100 dark:text-gray-300">
+                    Automatically categorize clothing with 40+ detailed properties
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <div className="flex-shrink-0 w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
+                  <Wand2 className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-1">Smart Recommendations</h3>
+                  <p className="text-sm text-purple-100 dark:text-gray-300">
+                    Get personalized outfits based on weather and occasion
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <div className="flex-shrink-0 w-10 h-10 bg-white/15 rounded-xl flex items-center justify-center">
+                  <Sparkles className="h-5 w-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold mb-1">Style Evolution</h3>
+                  <p className="text-sm text-purple-100 dark:text-gray-300">
+                    Track preferences and optimize your wardrobe over time
+                  </p>
+                </div>
               </div>
             </div>
           </div>
