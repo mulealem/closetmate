@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { supabase, type ClothingItem } from '../lib/supabase';
-import { Search, Filter, Grid, List, Trash2, Plus, RefreshCw, Eye } from 'lucide-react';
+import { Search, Filter, Grid, List, Trash2, Plus, RefreshCw, Eye, Camera, Sparkles } from 'lucide-react';
 import ClothingDetailModal from '../components/ClothingDetailModal';
 import DeleteConfirmationModal from '../components/DeleteConfirmationModal';
 
@@ -207,6 +207,15 @@ export default function Wardrobe() {
     await loadClothingItems();
   };
 
+  // Functions to trigger modals
+  const handleOpenAIModal = () => {
+    window.dispatchEvent(new CustomEvent('openAIModal'));
+  };
+
+  const handleOpenAddModal = () => {
+    window.dispatchEvent(new CustomEvent('openAddModal'));
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -243,13 +252,26 @@ export default function Wardrobe() {
               <RefreshCw className={`h-4 w-4 mr-2 ${refreshing ? 'animate-spin' : ''}`} />
               Refresh
             </button>
-            <a
-              href="/add-clothing"
-              className="inline-flex items-center px-4 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
+            
+            {/* AI Analysis Button */}
+            <button
+              onClick={handleOpenAIModal}
+              className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-600 to-teal-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-teal-700 transition-all duration-200 shadow-sm hover:shadow-md"
+            >
+              <Sparkles className="h-4 w-4 mr-2" />
+              <span className="hidden sm:block">AI Analysis</span>
+              <span className="sm:hidden">AI</span>
+            </button>
+
+            {/* Manual Add Button */}
+            <button
+              onClick={handleOpenAddModal}
+              className="inline-flex items-center px-4 py-2 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-all duration-200 shadow-sm hover:shadow-md"
             >
               <Plus className="h-4 w-4 mr-2" />
-              Add New Item
-            </a>
+              <span className="hidden sm:block">Manual Add</span>
+              <span className="sm:hidden">Add</span>
+            </button>
           </div>
         </div>
 
@@ -352,12 +374,22 @@ export default function Wardrobe() {
                   <p className="text-gray-500 mb-6">
                     Start building your digital closet by adding your first clothing item!
                   </p>
-                  <a
-                    href="/add-clothing"
-                    className="inline-flex items-center px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
-                  >
-                    Add Your First Item
-                  </a>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <button
+                      onClick={handleOpenAIModal}
+                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-purple-600 to-teal-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-teal-700 transition-all"
+                    >
+                      <Camera className="h-4 w-4 mr-2" />
+                      AI Photo Analysis
+                    </button>
+                    <button
+                      onClick={handleOpenAddModal}
+                      className="inline-flex items-center px-6 py-3 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors"
+                    >
+                      <Plus className="h-4 w-4 mr-2" />
+                      Manual Entry
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div>
