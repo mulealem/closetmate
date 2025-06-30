@@ -208,7 +208,7 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
             throw new Error('Failed to get image URL');
           }
           
-          // Save clothing item to database with AI analysis
+          // Save clothing item to database with comprehensive AI analysis
           const { error: dbError } = await supabase
             .from('clothing_items')
             .insert({
@@ -218,6 +218,8 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
               color: imageFile.analysis.color,
               warmth_level: imageFile.analysis.warmth_level,
               tags: imageFile.analysis.tags || [],
+              
+              // Extended properties
               occasion: imageFile.analysis.occasion || [],
               weather_suitability: imageFile.analysis.weather_suitability || [],
               style_aesthetic: imageFile.analysis.style_aesthetic || [],
@@ -230,8 +232,35 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
               neckline: imageFile.analysis.neckline,
               comfort_level: imageFile.analysis.comfort_level,
               care_requirements: imageFile.analysis.care_requirements,
+              
+              // Enhanced properties
+              brand: imageFile.analysis.brand,
+              price_range: imageFile.analysis.price_range,
+              formality_level: imageFile.analysis.formality_level,
+              versatility_score: imageFile.analysis.versatility_score,
+              condition_status: imageFile.analysis.condition_status,
+              body_fit: imageFile.analysis.body_fit,
+              transparency_level: imageFile.analysis.transparency_level,
+              texture: imageFile.analysis.texture,
+              weight: imageFile.analysis.weight,
+              stretch: imageFile.analysis.stretch,
+              breathability: imageFile.analysis.breathability,
+              water_resistance: imageFile.analysis.water_resistance,
+              special_features: imageFile.analysis.special_features || [],
+              color_intensity: imageFile.analysis.color_intensity,
+              pattern_scale: imageFile.analysis.pattern_scale,
+              layering_position: imageFile.analysis.layering_position,
+              maintenance_level: imageFile.analysis.maintenance_level,
+              sustainability_rating: imageFile.analysis.sustainability_rating,
+              emotional_association: imageFile.analysis.emotional_association || [],
+              compliment_frequency: imageFile.analysis.compliment_frequency,
+              outfit_role: imageFile.analysis.outfit_role,
+              weather_protection: imageFile.analysis.weather_protection || [],
+              activity_suitability: imageFile.analysis.activity_suitability || [],
+              
+              // AI tracking
               ai_analyzed: true,
-              ai_confidence: imageFile.analysis.ai_confidence
+              ai_confidence: imageFile.analysis.ai_confidence || imageFile.analysis.confidence
             });
 
           if (dbError) {
@@ -316,7 +345,7 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
             </div>
             <div>
               <h2 className="text-2xl font-bold text-gray-900">AI Clothing Analysis</h2>
-              <p className="text-gray-600">Upload multiple images and let AI identify your clothing</p>
+              <p className="text-gray-600">Upload multiple images and let AI identify your clothing with enhanced properties</p>
             </div>
           </div>
           <button
@@ -369,6 +398,13 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
                 <p className="text-xs text-gray-400 mt-4">
                   Supports JPG, PNG, GIF up to 10MB each
                 </p>
+                <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <h4 className="font-medium text-blue-800 mb-2">✨ Enhanced AI Analysis</h4>
+                  <p className="text-blue-700 text-sm">
+                    Our AI now analyzes 40+ properties including formality level, versatility score, 
+                    texture, breathability, and emotional associations for superior outfit recommendations!
+                  </p>
+                </div>
               </div>
             </div>
           ) : (
@@ -455,6 +491,11 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
                         <p className="text-xs font-medium truncate">
                           {imageFile.analysis.category} - {imageFile.analysis.color}
                         </p>
+                        {imageFile.analysis.formality_level && (
+                          <p className="text-xs opacity-75 truncate">
+                            {imageFile.analysis.formality_level}
+                          </p>
+                        )}
                       </div>
                     )}
 
@@ -483,10 +524,10 @@ export default function AIClothingModal({ isOpen, onClose, onSuccess }: AIClothi
               <div className="flex items-center justify-between pt-6 border-t border-gray-100">
                 <div className="text-sm text-gray-500">
                   {loading && currentAnalyzing && (
-                    <span>Analyzing images... Please wait.</span>
+                    <span>Analyzing images with enhanced AI... Please wait.</span>
                   )}
                   {allAnalyzed && analyzedCount > 0 && (
-                    <span>Analysis complete! Ready to save {analyzedCount} items.</span>
+                    <span>Analysis complete! Ready to save {analyzedCount} items with comprehensive properties.</span>
                   )}
                 </div>
                 

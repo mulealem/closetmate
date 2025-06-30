@@ -36,6 +36,31 @@ interface ClothingItem {
   pattern_design?: string;
   comfort_level?: string;
   image_url: string;
+  
+  // Enhanced properties
+  brand?: string;
+  price_range?: string;
+  formality_level?: string;
+  versatility_score?: number;
+  condition_status?: string;
+  body_fit?: string;
+  transparency_level?: string;
+  texture?: string;
+  weight?: string;
+  stretch?: string;
+  breathability?: string;
+  water_resistance?: string;
+  special_features?: string[];
+  color_intensity?: string;
+  pattern_scale?: string;
+  layering_position?: string;
+  maintenance_level?: string;
+  sustainability_rating?: string;
+  emotional_association?: string[];
+  compliment_frequency?: string;
+  outfit_role?: string;
+  weather_protection?: string[];
+  activity_suitability?: string[];
 }
 
 Deno.serve(async (req) => {
@@ -94,24 +119,43 @@ Deno.serve(async (req) => {
       throw new Error('Gemini API key not configured');
     }
 
-    // Create a detailed item list for the AI
+    // Create a comprehensive item list for the AI
     const itemDescriptions = clothingItems.map((item: ClothingItem, index: number) => {
       return `ITEM_${index + 1}:
 - ID: ${item.id}
 - Category: ${item.category}
-- Color: ${item.color}
+- Color: ${item.color} (Intensity: ${item.color_intensity || 'Medium'})
 - Warmth: ${item.warmth_level}
 - Material: ${item.material_fabric || 'Not specified'}
+- Formality: ${item.formality_level || 'Casual'}
+- Body Fit: ${item.body_fit || 'Regular'}
+- Versatility Score: ${item.versatility_score || 5}/10
+- Condition: ${item.condition_status || 'Good'}
 - Occasions: ${item.occasion?.join(', ') || 'General use'}
 - Style: ${item.style_aesthetic?.join(', ') || 'Versatile'}
 - Weather: ${item.weather_suitability?.join(', ') || 'General weather'}
 - Season: ${item.season?.join(', ') || 'All seasons'}
 - Comfort: ${item.comfort_level || 'Moderate'}
+- Transparency: ${item.transparency_level || 'Opaque'}
+- Texture: ${item.texture || 'Smooth'}
+- Weight: ${item.weight || 'Medium'}
+- Stretch: ${item.stretch || 'Low Stretch'}
+- Breathability: ${item.breathability || 'Moderate'}
+- Water Resistance: ${item.water_resistance || 'None'}
+- Special Features: ${item.special_features?.join(', ') || 'None'}
+- Pattern Scale: ${item.pattern_scale || 'N/A'}
+- Layering Position: ${item.layering_position || 'Mid Layer'}
+- Maintenance: ${item.maintenance_level || 'Medium'}
+- Outfit Role: ${item.outfit_role || 'Basic'}
+- Weather Protection: ${item.weather_protection?.join(', ') || 'None'}
+- Activity Suitability: ${item.activity_suitability?.join(', ') || 'General'}
+- Emotional Association: ${item.emotional_association?.join(', ') || 'Comfortable'}
+- Compliment Frequency: ${item.compliment_frequency || 'Sometimes'}
 - Tags: ${item.tags?.join(', ') || 'None'}`;
     }).join('\n\n');
 
-    // Prepare the prompt for Gemini
-    const prompt = `You are a professional fashion stylist AI. Create outfit combinations using ONLY the clothing items provided below.
+    // Prepare the enhanced prompt for Gemini
+    const prompt = `You are a professional fashion stylist AI with expertise in color theory, style coordination, and outfit composition. Create sophisticated outfit combinations using ONLY the clothing items provided below.
 
 USER REQUEST:
 - Occasion: ${outfitRequest.occasion}
@@ -124,29 +168,49 @@ USER REQUEST:
 AVAILABLE CLOTHING ITEMS:
 ${itemDescriptions}
 
-IMPORTANT INSTRUCTIONS:
-1. You MUST use the exact item IDs provided above (like the ID field for each item)
-2. Create 3-5 complete outfit combinations
-3. Each outfit should include items from different categories when possible (top, bottom, shoes, etc.)
-4. Consider color coordination, style harmony, and appropriateness for the occasion
-5. Ensure weather appropriateness based on warmth levels
-6. Only suggest items that actually exist in the wardrobe above
+STYLING GUIDELINES:
+1. **Color Coordination**: Consider color intensity, undertones, and complementary/analogous color schemes
+2. **Formality Matching**: Ensure all pieces match the required formality level for the occasion
+3. **Layering Logic**: Use layering_position to create proper layering (base → mid → outer)
+4. **Texture Balance**: Mix textures thoughtfully (smooth with textured, structured with flowing)
+5. **Proportion & Fit**: Balance fitted and loose pieces for flattering silhouettes
+6. **Weather Appropriateness**: Consider warmth_level, breathability, and weather_protection
+7. **Versatility Priority**: Favor items with higher versatility_scores when possible
+8. **Comfort Consideration**: Match comfort_level with occasion requirements
+9. **Pattern Mixing**: If mixing patterns, ensure different scales and complementary styles
+10. **Transparency Layering**: Use transparency_level to ensure appropriate coverage
 
-EXAMPLE RESPONSE FORMAT:
+OUTFIT CREATION RULES:
+- Each outfit should include 3-6 items minimum
+- Must include at least: top/dress + bottom (unless dress) + shoes
+- Add outerwear if weather requires (temp < 15°C or rain/snow)
+- Consider accessories if available and appropriate
+- Ensure color harmony and style cohesion
+- Match formality levels across all pieces
+- Consider the emotional_association for occasion appropriateness
+
+IMPORTANT INSTRUCTIONS:
+1. You MUST use the exact item IDs provided above
+2. Create 3-5 complete, sophisticated outfit combinations
+3. Prioritize items with better condition_status and higher versatility_score
+4. Consider compliment_frequency for special occasions
+5. Only suggest items that actually exist in the wardrobe above
+
+RESPONSE FORMAT:
 {
   "outfits": [
     {
-      "name": "Professional Day Look",
+      "name": "Descriptive outfit name",
       "item_ids": ["actual-uuid-1", "actual-uuid-2", "actual-uuid-3"],
-      "reasoning": "This combination works because...",
-      "style_notes": "Style this by...",
+      "reasoning": "Detailed explanation of why this combination works (color theory, style harmony, occasion appropriateness)",
+      "style_notes": "Specific styling tips and how to wear/accessorize",
       "confidence": 0.9
     }
   ],
-  "general_tips": "For this occasion, consider..."
+  "general_tips": "Overall styling advice for this occasion and weather"
 }
 
-Return ONLY valid JSON without markdown formatting. Use the exact UUIDs from the item IDs above.`;
+Return ONLY valid JSON without markdown formatting. Use the exact UUIDs from the item IDs above. Focus on creating outfits that are both stylish and practical for the specific occasion and weather conditions.`;
 
     // Call Gemini API
     const geminiResponse = await fetch(
@@ -170,7 +234,7 @@ Return ONLY valid JSON without markdown formatting. Use the exact UUIDs from the
             temperature: 0.3, // Lower temperature for more consistent ID matching
             topK: 40,
             topP: 0.95,
-            maxOutputTokens: 2048,
+            maxOutputTokens: 4096,
           }
         })
       }
@@ -286,27 +350,71 @@ Return ONLY valid JSON without markdown formatting. Use the exact UUIDs from the
   }
 });
 
-// Fallback function to create basic outfit suggestions
+// Enhanced fallback function to create better outfit suggestions
 function createFallbackOutfits(clothingItems: ClothingItem[], request: OutfitRequest) {
   const outfits = [];
   
-  // Group items by category
+  // Group items by category and properties
   const itemsByCategory = clothingItems.reduce((acc, item) => {
     if (!acc[item.category]) acc[item.category] = [];
     acc[item.category].push(item);
     return acc;
   }, {} as Record<string, ClothingItem[]>);
 
-  // Create up to 3 basic outfit combinations
+  // Sort items by versatility and condition
+  Object.keys(itemsByCategory).forEach(category => {
+    itemsByCategory[category].sort((a, b) => {
+      const aScore = (a.versatility_score || 5) + (a.condition_status === 'Excellent' ? 2 : a.condition_status === 'Good' ? 1 : 0);
+      const bScore = (b.versatility_score || 5) + (b.condition_status === 'Excellent' ? 2 : b.condition_status === 'Good' ? 1 : 0);
+      return bScore - aScore;
+    });
+  });
+
   const tops = itemsByCategory.top || [];
   const bottoms = itemsByCategory.bottom || [];
+  const dresses = itemsByCategory.dress || [];
   const shoes = itemsByCategory.shoes || [];
   const jackets = itemsByCategory.jacket || [];
   const outerwear = itemsByCategory.outerwear || [];
 
   let outfitCount = 0;
   
-  for (let i = 0; i < Math.min(tops.length, 3) && outfitCount < 3; i++) {
+  // Create dress-based outfits first
+  for (let i = 0; i < Math.min(dresses.length, 2) && outfitCount < 3; i++) {
+    const outfit = [];
+    const dress = dresses[i];
+    outfit.push(dress);
+
+    // Add shoes if available
+    if (shoes.length > 0) {
+      const shoe = shoes[i % shoes.length];
+      outfit.push(shoe);
+    }
+
+    // Add outerwear if weather is cold
+    if (request.weather && request.weather.temperature < 15) {
+      const outerLayer = [...jackets, ...outerwear];
+      if (outerLayer.length > 0) {
+        outfit.push(outerLayer[i % outerLayer.length]);
+      }
+    }
+
+    if (outfit.length >= 2) {
+      outfits.push({
+        name: `${request.occasion} Dress Look ${outfitCount + 1}`,
+        items: outfit,
+        item_ids: outfit.map(item => item.id),
+        reasoning: `A sophisticated dress-based outfit perfect for ${request.occasion.toLowerCase()}. The dress serves as the statement piece with complementary accessories.`,
+        style_notes: "Complete the look with minimal jewelry and a structured bag for a polished appearance.",
+        confidence: 0.8,
+        item_count: outfit.length
+      });
+      outfitCount++;
+    }
+  }
+
+  // Create top + bottom combinations
+  for (let i = 0; i < Math.min(tops.length, 3) && outfitCount < 5; i++) {
     const outfit = [];
     const top = tops[i];
     outfit.push(top);
@@ -323,21 +431,22 @@ function createFallbackOutfits(clothingItems: ClothingItem[], request: OutfitReq
       outfit.push(shoe);
     }
 
-    // Add jacket/outerwear if weather is cold
-    if (request.weather && request.weather.temperature < 15) {
+    // Add jacket/outerwear if weather is cold or for layering
+    if ((request.weather && request.weather.temperature < 15) || request.occasion.toLowerCase().includes('formal')) {
       const outerLayer = [...jackets, ...outerwear];
       if (outerLayer.length > 0) {
         outfit.push(outerLayer[i % outerLayer.length]);
       }
     }
 
-    if (outfit.length >= 2) { // At least 2 items for a valid outfit
+    if (outfit.length >= 2) {
+      const formalityLevel = top.formality_level || 'Casual';
       outfits.push({
-        name: `Outfit ${outfitCount + 1} for ${request.occasion}`,
+        name: `${formalityLevel} ${request.occasion} Look ${outfitCount + 1}`,
         items: outfit,
         item_ids: outfit.map(item => item.id),
-        reasoning: `A ${request.occasion.toLowerCase()} appropriate combination using your available items.`,
-        style_notes: "Mix and match with accessories to personalize your look.",
+        reasoning: `A well-coordinated ${formalityLevel.toLowerCase()} outfit suitable for ${request.occasion.toLowerCase()}. The color combination and style elements work harmoniously together.`,
+        style_notes: "Layer thoughtfully and ensure all pieces complement each other in both color and formality level.",
         confidence: 0.7,
         item_count: outfit.length
       });

@@ -34,6 +34,34 @@ export type ClothingItem = {
   care_requirements?: string;
   ai_analyzed?: boolean;
   ai_confidence?: number;
+
+  // Enhanced properties for better recommendations
+  brand?: string;
+  price_range?: string;
+  formality_level?: string;
+  versatility_score?: number;
+  condition_status?: string;
+  purchase_date?: string;
+  last_worn?: string;
+  wear_frequency?: string;
+  body_fit?: string;
+  transparency_level?: string;
+  texture?: string;
+  weight?: string;
+  stretch?: string;
+  breathability?: string;
+  water_resistance?: string;
+  special_features?: string[];
+  color_intensity?: string;
+  pattern_scale?: string;
+  layering_position?: string;
+  maintenance_level?: string;
+  sustainability_rating?: string;
+  emotional_association?: string[];
+  compliment_frequency?: string;
+  outfit_role?: string;
+  weather_protection?: string[];
+  activity_suitability?: string[];
 };
 
 export type Outfit = {
