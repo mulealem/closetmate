@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { Shirt, Home, Heart, Settings, LogOut, Plus, Sparkles } from 'lucide-react';
+import { Shirt, Home, Heart, Settings, LogOut, Plus, Sparkles, User, ChevronDown } from 'lucide-react';
 import AddClothingModal from './AddClothingModal';
 import AIClothingModal from './AIClothingModal';
 
@@ -10,11 +10,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const isActive = (path: string) => location.pathname === path;
 
   const handleSignOut = async () => {
     await signOut();
+    setIsUserDropdownOpen(false);
   };
 
   const handleAddItemSuccess = () => {
@@ -23,6 +26,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     setIsAIModalOpen(false);
     window.dispatchEvent(new CustomEvent('wardrobeUpdated'));
   };
+
+  // Get user initials for avatar
+  const getUserInitials = (email: string) => {
+    const name = email.split('@')[0];
+    const parts = name.split(/[._-]/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return name.slice(0, 2).toUpperCase();
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsUserDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Listen for the custom event to open the modal
   useEffect(() => {
@@ -78,16 +103,92 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     <span className="hidden sm:block">Manual Add</span>
                   </button>
 
-                  <span className="text-sm text-gray-600 hidden sm:block">
-                    {user.email}
-                  </span>
-                  <button
-                    onClick={handleSignOut}
-                    className="flex items-center space-x-1 px-3 py-2 text-sm text-gray-600 hover:text-purple-600 transition-colors"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    <span className="hidden sm:block">Sign Out</span>
-                  </button>
+                  {/* User Dropdown */}
+                  <div className="relative" ref={dropdownRef}>
+                    <button
+                      onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                      className="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                    >
+                      {/* User Avatar */}
+                      <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-teal-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm">
+                        {getUserInitials(user.email || '')}
+                      </div>
+                      
+                      {/* Username and Chevron (hidden on mobile) */}
+                      <div className="hidden sm:flex items-center space-x-1">
+                        <span className="text-sm font-medium text-gray-700 max-w-32 truncate">
+                          {user.email?.split('@')[0]}
+                        </span>
+                        <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
+                          isUserDropdownOpen ? 'rotate-180' : ''
+                        }`} />
+                      </div>
+                    </button>
+
+                    {/* Dropdown Menu */}
+                    {isUserDropdownOpen && (
+                      <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 transform transition-all duration-200 origin-top-right">
+                        {/* User Info */}
+                        <div className="px-4 py-3 border-b border-gray-100">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-teal-600 rounded-full flex items-center justify-center text-white font-semibold shadow-sm">
+                              {getUserInitials(user.email || '')}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-900 truncate">
+                                {user.email?.split('@')[0]}
+                              </p>
+                              <p className="text-xs text-gray-500 truncate">
+                                {user.email}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Menu Items */}
+                        <div className="py-1">
+                          <Link
+                            to="/preferences"
+                            onClick={() => setIsUserDropdownOpen(false)}
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          >
+                            <Settings className="h-4 w-4 mr-3 text-gray-500" />
+                            Account Settings
+                          </Link>
+                          
+                          <Link
+                            to="/favorites"
+                            onClick={() => setIsUserDropdownOpen(false)}
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          >
+                            <Heart className="h-4 w-4 mr-3 text-gray-500" />
+                            My Favorites
+                          </Link>
+
+                          <Link
+                            to="/wardrobe"
+                            onClick={() => setIsUserDropdownOpen(false)}
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                          >
+                            <Shirt className="h-4 w-4 mr-3 text-gray-500" />
+                            My Wardrobe
+                          </Link>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="border-t border-gray-100 my-1"></div>
+
+                        {/* Sign Out */}
+                        <button
+                          onClick={handleSignOut}
+                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                        >
+                          <LogOut className="h-4 w-4 mr-3" />
+                          Sign Out
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </>
               )}
             </div>
