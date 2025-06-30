@@ -239,8 +239,8 @@ const Dashboard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your dashboard...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 dark:border-purple-400 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -250,10 +250,10 @@ const Dashboard = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Welcome Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
           Good morning! ✨
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-600 dark:text-gray-400">
           Let's find the perfect outfit for today's weather.
         </p>
       </div>
@@ -264,10 +264,10 @@ const Dashboard = () => {
           {/* Weather & Location */}
           <div className="space-y-4">
             {!weather && (
-              <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl p-6">
                 <div className="flex items-center space-x-2 mb-4">
-                  <MapPin className="h-5 w-5 text-blue-600" />
-                  <h3 className="font-medium text-blue-800">Get Weather Information</h3>
+                  <MapPin className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  <h3 className="font-medium text-blue-800 dark:text-blue-300">Get Weather Information</h3>
                 </div>
                 
                 <div className="space-y-4">
@@ -276,7 +276,7 @@ const Dashboard = () => {
                     <button
                       onClick={loadCurrentLocationWeather}
                       disabled={weatherLoading}
-                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 dark:bg-blue-700 text-white font-medium rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       {weatherLoading ? (
                         <>
@@ -290,21 +290,21 @@ const Dashboard = () => {
                         </>
                       )}
                     </button>
-                    <p className="text-sm text-blue-600 mt-2 text-center">
+                    <p className="text-sm text-blue-600 dark:text-blue-400 mt-2 text-center">
                       We'll ask for permission to access your location
                     </p>
                   </div>
 
                   {/* Divider */}
                   <div className="flex items-center">
-                    <div className="flex-1 border-t border-blue-200"></div>
-                    <span className="px-3 text-sm text-blue-600">or</span>
-                    <div className="flex-1 border-t border-blue-200"></div>
+                    <div className="flex-1 border-t border-blue-200 dark:border-blue-700"></div>
+                    <span className="px-3 text-sm text-blue-600 dark:text-blue-400">or</span>
+                    <div className="flex-1 border-t border-blue-200 dark:border-blue-700"></div>
                   </div>
 
                   {/* Manual City Input */}
                   <div>
-                    <label className="block text-sm font-medium text-blue-800 mb-2">
+                    <label className="block text-sm font-medium text-blue-800 dark:text-blue-300 mb-2">
                       Enter your city manually
                     </label>
                     <div className="flex space-x-2">
@@ -313,14 +313,14 @@ const Dashboard = () => {
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
                         placeholder="e.g., New York, London, Tokyo"
-                        className="flex-1 px-3 py-2 border border-blue-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 px-3 py-2 border border-blue-200 dark:border-blue-700 dark:bg-gray-800 dark:text-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onKeyPress={(e) => e.key === 'Enter' && updateCityWeather()}
                         disabled={weatherLoading}
                       />
                       <button
                         onClick={updateCityWeather}
                         disabled={weatherLoading || !city.trim()}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
                         {weatherLoading ? (
                           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
@@ -333,8 +333,8 @@ const Dashboard = () => {
                 </div>
 
                 {locationError && (
-                  <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                    <p className="text-red-600 text-sm">⚠️ {locationError}</p>
+                  <div className="mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                    <p className="text-red-600 dark:text-red-400 text-sm">⚠️ {locationError}</p>
                   </div>
                 )}
               </div>
@@ -345,14 +345,14 @@ const Dashboard = () => {
 
           {/* AI Outfit Generator */}
           {clothingItems.length > 0 && (
-            <div className="bg-gradient-to-r from-purple-50 to-teal-50 rounded-2xl p-6 border border-purple-100">
+            <div className="bg-gradient-to-r from-purple-50 to-teal-50 dark:from-purple-900/20 dark:to-teal-900/20 rounded-2xl p-6 border border-purple-100 dark:border-purple-800">
               <div className="flex items-center justify-between">
                 <div>
                   <div className="flex items-center space-x-2 mb-2">
-                    <Wand2 className="h-6 w-6 text-purple-600" />
-                    <h3 className="text-xl font-bold text-gray-900">AI Outfit Generator</h3>
+                    <Wand2 className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100">AI Outfit Generator</h3>
                   </div>
-                  <p className="text-gray-600 mb-4">
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
                     Get personalized outfit suggestions for any occasion using AI
                   </p>
                 </div>
@@ -370,17 +370,17 @@ const Dashboard = () => {
           {/* Outfit Suggestions */}
           <div>
             <div className="flex items-center space-x-2 mb-6">
-              <Sparkles className="h-6 w-6 text-purple-600" />
-              <h2 className="text-2xl font-bold text-gray-900">Today's Suggestions</h2>
+              <Sparkles className="h-6 w-6 text-purple-600 dark:text-purple-400" />
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Today's Suggestions</h2>
             </div>
 
             {clothingItems.length === 0 ? (
-              <div className="bg-gray-50 rounded-2xl p-12 text-center">
-                <Sparkles className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-gray-600 mb-2">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-12 text-center">
+                <Sparkles className="h-12 w-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-gray-600 dark:text-gray-400 mb-2">
                   No clothing items yet
                 </h3>
-                <p className="text-gray-500 mb-6">
+                <p className="text-gray-500 dark:text-gray-500 mb-6">
                   Add some clothes to your wardrobe to get personalized outfit suggestions!
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -393,7 +393,7 @@ const Dashboard = () => {
                   </button>
                   <button
                     onClick={() => window.dispatchEvent(new CustomEvent('openAddModal'))}
-                    className="inline-flex items-center px-6 py-3 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-colors"
+                    className="inline-flex items-center px-6 py-3 bg-gray-600 dark:bg-gray-700 text-white font-medium rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
                   >
                     <Plus className="h-4 w-4 mr-2" />
                     Manual Entry
@@ -401,21 +401,21 @@ const Dashboard = () => {
                 </div>
               </div>
             ) : outfitSuggestions.length === 0 ? (
-              <div className="bg-gray-50 rounded-2xl p-8 text-center">
-                <p className="text-gray-600">
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl p-8 text-center">
+                <p className="text-gray-600 dark:text-gray-400">
                   Add more clothing items to get better outfit suggestions!
                 </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {outfitSuggestions.map((suggestion, index) => (
-                  <div key={index} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                    <div className="aspect-square bg-gray-50 relative">
+                  <div key={index} className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+                    <div className="aspect-square bg-gray-50 dark:bg-gray-700 relative">
                       <div className="grid grid-cols-2 gap-1 p-2 h-full">
                         {suggestion.items.slice(0, 4).map((item, itemIndex) => (
                           <div
                             key={item.id}
-                            className="bg-white rounded-lg overflow-hidden border border-gray-200"
+                            className="bg-white dark:bg-gray-600 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-600"
                           >
                             <img
                               src={item.image_url}
@@ -429,20 +429,20 @@ const Dashboard = () => {
                     <div className="p-4">
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm font-medium text-gray-800">
+                          <span className="text-sm font-medium text-gray-800 dark:text-gray-200">
                             Score: {suggestion.score}%
                           </span>
                           <div className="flex items-center">
                             {[...Array(Math.ceil(suggestion.score / 20))].map((_, i) => (
-                              <div key={i} className="w-1 h-1 bg-purple-600 rounded-full mr-1"></div>
+                              <div key={i} className="w-1 h-1 bg-purple-600 dark:bg-purple-400 rounded-full mr-1"></div>
                             ))}
                           </div>
                         </div>
                       </div>
-                      <p className="text-sm text-gray-600 mb-3">{suggestion.reasoning}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{suggestion.reasoning}</p>
                       <button
                         onClick={() => saveOutfit(suggestion)}
-                        className="w-full py-2 px-4 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700 transition-colors"
+                        className="w-full py-2 px-4 bg-purple-600 dark:bg-purple-700 text-white font-medium rounded-lg hover:bg-purple-700 dark:hover:bg-purple-600 transition-colors"
                       >
                         Save Outfit
                       </button>
@@ -457,26 +457,26 @@ const Dashboard = () => {
         {/* Right Column */}
         <div className="space-y-8">
           {/* Quick Stats */}
-          <div className="bg-white rounded-2xl p-6 border border-gray-100">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">Your Wardrobe</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-100 dark:border-gray-700">
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Your Wardrobe</h3>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-gray-600">Total Items</span>
-                <span className="font-semibold text-gray-800">{clothingItems.length}</span>
+                <span className="text-gray-600 dark:text-gray-400">Total Items</span>
+                <span className="font-semibold text-gray-800 dark:text-gray-200">{clothingItems.length}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-600">AI Analyzed</span>
-                <span className="font-semibold text-gray-800">
+                <span className="text-gray-600 dark:text-gray-400">AI Analyzed</span>
+                <span className="font-semibold text-gray-800 dark:text-gray-200">
                   {clothingItems.filter(item => item.ai_analyzed).length}
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-600">Saved Outfits</span>
-                <span className="font-semibold text-gray-800">{recentOutfits.length}</span>
+                <span className="text-gray-600 dark:text-gray-400">Saved Outfits</span>
+                <span className="font-semibold text-gray-800 dark:text-gray-200">{recentOutfits.length}</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-gray-600">Favorites</span>
-                <span className="font-semibold text-gray-800">
+                <span className="text-gray-600 dark:text-gray-400">Favorites</span>
+                <span className="font-semibold text-gray-800 dark:text-gray-200">
                   {recentOutfits.filter(o => o.is_favorite).length}
                 </span>
               </div>
@@ -487,8 +487,8 @@ const Dashboard = () => {
           {recentOutfits.length > 0 && (
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <Clock className="h-5 w-5 text-gray-600" />
-                <h3 className="text-lg font-semibold text-gray-800">Recent Outfits</h3>
+                <Clock className="h-5 w-5 text-gray-600 dark:text-gray-400" />
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Recent Outfits</h3>
               </div>
               <div className="space-y-4">
                 {recentOutfits.slice(0, 3).map((outfit) => (

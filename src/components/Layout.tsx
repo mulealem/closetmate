@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { Shirt, Home, Heart, Settings, LogOut, Plus, Sparkles, User, ChevronDown, ExternalLink } from 'lucide-react';
 import AddClothingModal from './AddClothingModal';
 import AIClothingModal from './AIClothingModal';
+import DarkModeToggle from './DarkModeToggle';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { user, signOut } = useAuth();
@@ -100,9 +101,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   }, [user]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-purple-100 sticky top-0 z-50">
+      <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border-b border-purple-100 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
@@ -119,6 +120,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="flex items-center space-x-4">
               {user ? (
                 <>
+                  {/* Dark Mode Toggle */}
+                  <DarkModeToggle />
+
                   {/* AI Analysis Button */}
                   <button
                     onClick={() => setIsAIModalOpen(true)}
@@ -131,7 +135,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   {/* Manual Add Item Button */}
                   <button
                     onClick={() => setIsAddModalOpen(true)}
-                    className="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white font-medium rounded-lg hover:bg-gray-700 transition-all duration-200 shadow-sm hover:shadow-md"
+                    className="flex items-center space-x-2 px-4 py-2 bg-gray-600 dark:bg-gray-700 text-white font-medium rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-200 shadow-sm hover:shadow-md"
                   >
                     <Plus className="h-4 w-4" />
                     <span className="hidden sm:block">Manual Add</span>
@@ -144,7 +148,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         console.log('User dropdown clicked, current state:', isUserDropdownOpen);
                         setIsUserDropdownOpen(!isUserDropdownOpen);
                       }}
-                      className="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-50 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                      className="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
                     >
                       {/* User Avatar */}
                       <div className="w-8 h-8 bg-gradient-to-r from-purple-600 to-teal-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-sm">
@@ -153,10 +157,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       
                       {/* Username and Chevron (hidden on mobile) */}
                       <div className="hidden sm:flex items-center space-x-1">
-                        <span className="text-sm font-medium text-gray-700 max-w-32 truncate">
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 max-w-32 truncate">
                           {getUsername(user.email)}
                         </span>
-                        <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${
+                        <ChevronDown className={`h-4 w-4 text-gray-500 dark:text-gray-400 transition-transform duration-200 ${
                           isUserDropdownOpen ? 'rotate-180' : ''
                         }`} />
                       </div>
@@ -164,18 +168,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
                     {/* Dropdown Menu */}
                     {isUserDropdownOpen && (
-                      <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
+                      <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 py-2 z-50 animate-in slide-in-from-top-2 duration-200">
                         {/* User Info */}
-                        <div className="px-4 py-3 border-b border-gray-100">
+                        <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700">
                           <div className="flex items-center space-x-3">
                             <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-teal-600 rounded-full flex items-center justify-center text-white font-semibold shadow-sm">
                               {getUserInitials(user.email)}
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-gray-900 truncate">
+                              <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                                 {getUsername(user.email)}
                               </p>
-                              <p className="text-xs text-gray-500 truncate">
+                              <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                                 {user.email || 'No email'}
                               </p>
                             </div>
@@ -187,38 +191,38 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                           <Link
                             to="/preferences"
                             onClick={() => setIsUserDropdownOpen(false)}
-                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                           >
-                            <Settings className="h-4 w-4 mr-3 text-gray-500" />
+                            <Settings className="h-4 w-4 mr-3 text-gray-500 dark:text-gray-400" />
                             Account Settings
                           </Link>
                           
                           <Link
                             to="/favorites"
                             onClick={() => setIsUserDropdownOpen(false)}
-                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                           >
-                            <Heart className="h-4 w-4 mr-3 text-gray-500" />
+                            <Heart className="h-4 w-4 mr-3 text-gray-500 dark:text-gray-400" />
                             My Favorites
                           </Link>
 
                           <Link
                             to="/wardrobe"
                             onClick={() => setIsUserDropdownOpen(false)}
-                            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                            className="flex items-center px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                           >
-                            <Shirt className="h-4 w-4 mr-3 text-gray-500" />
+                            <Shirt className="h-4 w-4 mr-3 text-gray-500 dark:text-gray-400" />
                             My Wardrobe
                           </Link>
                         </div>
 
                         {/* Divider */}
-                        <div className="border-t border-gray-100 my-1"></div>
+                        <div className="border-t border-gray-100 dark:border-gray-700 my-1"></div>
 
                         {/* Sign Out */}
                         <button
                           onClick={handleSignOut}
-                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                         >
                           <LogOut className="h-4 w-4 mr-3" />
                           Sign Out
@@ -228,7 +232,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   </div>
                 </>
               ) : (
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
                   Loading...
                 </div>
               )}
@@ -239,15 +243,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Navigation */}
       {user && (
-        <nav className="bg-white/60 backdrop-blur-sm border-b border-purple-100">
+        <nav className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border-b border-purple-100 dark:border-gray-700 transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex space-x-8 overflow-x-auto">
               <Link
                 to="/"
                 className={`flex items-center space-x-2 py-4 px-1 border-b-2 whitespace-nowrap transition-colors ${
                   isActive('/') 
-                    ? 'border-purple-500 text-purple-600' 
-                    : 'border-transparent text-gray-500 hover:text-purple-600 hover:border-purple-300'
+                    ? 'border-purple-500 text-purple-600 dark:text-purple-400' 
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-300 dark:hover:border-purple-500'
                 }`}
               >
                 <Home className="h-4 w-4" />
@@ -257,8 +261,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 to="/wardrobe"
                 className={`flex items-center space-x-2 py-4 px-1 border-b-2 whitespace-nowrap transition-colors ${
                   isActive('/wardrobe') 
-                    ? 'border-purple-500 text-purple-600' 
-                    : 'border-transparent text-gray-500 hover:text-purple-600 hover:border-purple-300'
+                    ? 'border-purple-500 text-purple-600 dark:text-purple-400' 
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-300 dark:hover:border-purple-500'
                 }`}
               >
                 <Shirt className="h-4 w-4" />
@@ -268,8 +272,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 to="/favorites"
                 className={`flex items-center space-x-2 py-4 px-1 border-b-2 whitespace-nowrap transition-colors ${
                   isActive('/favorites') 
-                    ? 'border-purple-500 text-purple-600' 
-                    : 'border-transparent text-gray-500 hover:text-purple-600 hover:border-purple-300'
+                    ? 'border-purple-500 text-purple-600 dark:text-purple-400' 
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-300 dark:hover:border-purple-500'
                 }`}
               >
                 <Heart className="h-4 w-4" />
@@ -279,8 +283,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 to="/preferences"
                 className={`flex items-center space-x-2 py-4 px-1 border-b-2 whitespace-nowrap transition-colors ${
                   isActive('/preferences') 
-                    ? 'border-purple-500 text-purple-600' 
-                    : 'border-transparent text-gray-500 hover:text-purple-600 hover:border-purple-300'
+                    ? 'border-purple-500 text-purple-600 dark:text-purple-400' 
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 hover:border-purple-300 dark:hover:border-purple-500'
                 }`}
               >
                 <Settings className="h-4 w-4" />
@@ -302,7 +306,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           href="https://bolt.new"
           target="_blank"
           rel="noopener noreferrer"
-          className="group flex items-center space-x-2 px-3 py-2 bg-black/80 backdrop-blur-sm text-white text-xs font-medium rounded-full hover:bg-black/90 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+          className="group flex items-center space-x-2 px-3 py-2 bg-black/80 dark:bg-white/10 backdrop-blur-sm text-white dark:text-gray-200 text-xs font-medium rounded-full hover:bg-black/90 dark:hover:bg-white/20 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
         >
           <div className="w-4 h-4 bg-gradient-to-r from-orange-400 to-yellow-400 rounded-full flex items-center justify-center">
             <div className="w-2 h-2 bg-white rounded-full"></div>
